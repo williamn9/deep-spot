@@ -1,0 +1,11 @@
+# Local HTTPS dev certs
+web/.cert.pem
+web/.key.pem
+
+# Archives
+*.zip
+
+# macOS / Xcode
+.DS_Store
+*.xcuserdatad/
+xcuserdata/

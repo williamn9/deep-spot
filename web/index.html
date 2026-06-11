@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0a1628">
+  <title>Deep Spot — Underwater Photography</title>
+  <link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+  <div id="app">
+    <canvas id="gameCanvas"></canvas>
+    <div id="airWarningHalo" class="air-warning-halo hidden" aria-hidden="true"></div>
+
+    <div id="diveCardStrip" class="dive-card-strip hidden" aria-live="polite">
+      <span class="dive-card-strip-label">Dive cards</span>
+      <div id="diveCardStripCards" class="dive-card-strip-cards"></div>
+    </div>
+
+    <div id="hud" class="hidden">
+      <div class="hud-row">
+        <div class="hud-stat">
+          <span class="hud-label">Depth</span>
+          <span id="depthValue" class="hud-value">0m</span>
+        </div>
+        <div class="hud-stat hud-stat-album hud-stat-right">
+          <div class="hud-album-line">
+            <button type="button" id="albumStatBtn" class="hud-album-btn" aria-label="Open photo album">
+              <span class="hud-album-btn-badge" aria-hidden="true">📷</span>
+              <span class="hud-album-btn-text">
+                <span class="hud-album-btn-title">Album</span>
+                <span class="hud-album-btn-sub">Species log</span>
+              </span>
+              <span class="hud-album-btn-chevron" aria-hidden="true">›</span>
+            </button>
+            <span id="pendingInline" class="pending-inline hidden" aria-live="polite">
+              <span class="pending-count">0</span><span class="pending-suffix">→surface</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div id="netEscapeHint" class="net-escape-hint hidden" aria-live="polite">🕸️ Shake phone to escape</div>
+      <div class="air-bar-wrap">
+        <div class="air-bar-label">
+          <span id="tankLabel">Standard Tank</span>
+          <span id="airPercent">100%</span>
+        </div>
+        <div class="air-bar-track">
+          <div id="airBar" class="air-bar-fill"></div>
+        </div>
+      </div>
+      <div id="spotToast" class="spot-toast hidden"></div>
+    </div>
+
+    <div id="startScreen" class="overlay">
+      <div class="overlay-card">
+        <div class="logo">📷</div>
+        <h1>Deep Spot</h1>
+        <p class="tagline">An underwater photography dive. Frame rare species through your lens — surface to develop your album before air runs out.</p>
+        <ul class="instructions">
+          <li><strong>Tilt left/right</strong> — swim sideways</li>
+          <li><strong>Tilt forward</strong> — dive deeper</li>
+          <li><strong>Tilt back</strong> — rise to the surface</li>
+          <li>Get close to frame a shot — photographed fish <strong>turn grey and swim away</strong></li>
+          <li>New species show a <strong>card when photographed</strong> — mini cards stack at the top</li>
+          <li><strong>Surface</strong> to move dive cards into your album; lose them if you run out of air first</li>
+          <li>Collect <strong>every species</strong> in a rarity tier (Common, then Uncommon, Rare, Legendary) to <strong>upgrade your tank</strong> when you surface</li>
+          <li>Tangled in a net? <strong>Shake your phone</strong> to break free</li>
+          <li>Coral, cliffs, rocks, and bombs <strong>drain air</strong> — bombs explode on contact</li>
+          <li>Touch a <strong>stage bottle</strong> to restore <strong>30% of your tank</strong> — one spawns ahead every <strong>10 photos</strong></li>
+        </ul>
+        <button id="startBtn" class="btn primary">Start Dive</button>
+        <p id="httpsHint" class="motion-hint hidden">Gyro requires HTTPS on iPhone. Run <code>python3 serve-https.py</code> in the web folder, then open the https:// address shown.</p>
+        <p id="motionHint" class="motion-hint hidden">Motion access denied. Allow motion in the iOS prompt, or use Settings → Safari → Motion &amp; Orientation.</p>
+      </div>
+    </div>
+
+    <div id="collectionScreen" class="overlay overlay-collection hidden">
+      <div class="overlay-card collection-card">
+        <header class="collection-header">
+          <div class="logo">📷</div>
+          <h1>Photo Album</h1>
+          <p id="collectionProgress" class="tagline">0 / 22 species in album</p>
+        <p id="albumTankInfo" class="collection-tank-info"></p>
+        </header>
+        <div class="collection-scroll">
+          <ul id="collectionList" class="collection-list"></ul>
+        </div>
+        <p class="collection-storage-hint">Saved in this browser (cookie). Tap a species to view its album card.</p>
+        <div class="collection-actions">
+          <button id="collectionResetBtn" type="button" class="btn btn-danger">Reset Album</button>
+          <button id="collectionCloseBtn" type="button" class="btn primary">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="tankCardScreen" class="overlay overlay-fish-card hidden" aria-hidden="true">
+      <div class="fish-card tank-card">
+        <div class="fish-card-rarity">Tank Upgrade</div>
+        <div id="tankCardEmoji" class="fish-card-art" aria-hidden="true">🫧</div>
+        <h2 id="tankCardName" class="fish-card-name">Tank Upgrade</h2>
+        <p id="tankCardStats" class="fish-card-points tank-card-stats"></p>
+        <div class="fish-card-actions">
+          <button id="tankCardShareBtn" type="button" class="btn btn-share">Share Card</button>
+          <button id="tankCardCloseBtn" type="button" class="btn primary">Continue</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="fishCardScreen" class="overlay overlay-fish-card hidden" aria-hidden="true">
+      <div class="fish-card" data-rarity="">
+        <div id="fishCardRarity" class="fish-card-rarity">Common</div>
+        <div id="fishCardEmoji" class="fish-card-art" aria-hidden="true">🐟</div>
+        <h2 id="fishCardName" class="fish-card-name">Species</h2>
+        <p id="fishCardPoints" class="fish-card-points">+0 pts</p>
+        <p id="fishCardDesc" class="fish-card-desc"></p>
+        <h3 class="fish-card-facts-title">Did you know?</h3>
+        <ul id="fishCardFacts" class="fish-card-facts"></ul>
+        <div class="fish-card-actions">
+          <button id="fishCardShareBtn" type="button" class="btn btn-share">Share Card</button>
+          <button id="fishCardCloseBtn" type="button" class="btn primary">Continue</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="gameOverScreen" class="overlay hidden">
+      <div class="overlay-card">
+        <div id="gameOverIcon" class="logo">💀</div>
+        <h1 id="gameOverTitle">Out of Air</h1>
+        <p id="gameOverMessage">The diver didn't make it back in time.</p>
+        <div class="final-stats final-stats-compact">
+          <div class="final-stat">
+            <span class="final-label">Species</span>
+            <span id="finalAlbum" class="final-value">0</span>
+          </div>
+          <div class="final-stat">
+            <span class="final-label">Max Depth</span>
+            <span id="finalDepth" class="final-value">0m</span>
+          </div>
+        </div>
+        <button id="restartBtn" class="btn primary">Dive Again</button>
+      </div>
+    </div>
+
+    <div id="pauseHint" class="pause-hint hidden">Hold phone in landscape or portrait — tilt to move</div>
+  </div>
+
+  <script src="js/sounds.js"></script>
+  <script src="js/fish-cards.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/fish-card.js?v=3"></script>
+</body>
+</html>
