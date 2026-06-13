@@ -4,11 +4,7 @@ Underwater photography dive game — descend, spot rare creatures, and surface t
 
 ## Play online
 
-After GitHub Pages is enabled, play at:
-
-**https://YOUR_USERNAME.github.io/deep-spot/**
-
-(Replace `YOUR_USERNAME` with your GitHub username.)
+**https://williamn9.github.io/deep-spot/**
 
 ## Controls
 
