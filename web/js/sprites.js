@@ -3,7 +3,7 @@
  */
 
 const SPRITE_BASE = 'assets/sprites/';
-const SPRITE_VERSION = '2';
+const SPRITE_VERSION = '4';
 const spriteCache = Object.create(null);
 let spritesReady = false;
 let spritesReadyPromise = null;

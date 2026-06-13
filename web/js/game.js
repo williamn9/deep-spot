@@ -1163,9 +1163,36 @@ function spawnCreature() {
 
 function initCreaturePreload() {
   creatures = [];
-  for (let d = 5; d < 70; d += 14 + Math.random() * 10) {
+  for (let d = 2; d < 70; d += 14 + Math.random() * 10) {
     if (creatures.length >= WORLD.maxCreatures) break;
     spawnCreatureAtDepth(d);
+  }
+}
+
+function maintainShallowCreatures() {
+  if (depth > 38) return;
+
+  const shallowMin = 1;
+  const shallowMax = Math.max(shallowMin + 2, Math.min(depth + 10, 24));
+  const shallowBand = creatures.filter(
+    (c) =>
+      c.depth >= shallowMin &&
+      c.depth <= shallowMax &&
+      !(c.spotted && (c.photoFade || 0) >= 1)
+  );
+  const target = depth < 15 ? 2 : 1;
+  if (shallowBand.length >= target || creatures.length >= WORLD.maxCreatures) return;
+
+  let guard = 0;
+  for (
+    let d = shallowMin;
+    d <= shallowMax &&
+    shallowBand.length + guard < target &&
+    creatures.length < WORLD.maxCreatures &&
+    guard < 8;
+    d += 3 + Math.random() * 5
+  ) {
+    if (spawnCreatureAtDepth(d)) guard++;
   }
 }
 
@@ -1181,6 +1208,7 @@ function maintainCreaturePreload() {
       d += 5;
     }
   }
+  maintainShallowCreatures();
 }
 
 function getDeepParticleFactor() {
@@ -1882,7 +1910,15 @@ function cullWorldEntities() {
   const keepAheadM = WORLD.preloadAheadM + 25;
   creatures = creatures.filter((c) => {
     if (c.spotted && (c.photoFade || 0) >= 1) return false;
-    if (c.depth < depth - keepBehindM || c.depth > depth + keepAheadM) return false;
+    if (c.depth > depth + keepAheadM) return false;
+    if (c.depth < depth - keepBehindM) {
+      // Keep fauna between the diver and the surface while ascending.
+      if (c.depth >= 0 && c.depth <= depth) {
+        const sy = depthToScreenY(c.depth);
+        return sy > seaLevel - 60 && sy < h + 40;
+      }
+      return false;
+    }
     const sy = depthToScreenY(c.depth);
     return sy > seaLevel - 60;
   });
@@ -2550,10 +2586,15 @@ function drawCreatureGlows() {
 function drawCreature(c) {
   const { type, x, spotted } = c;
   const y = depthToScreenY(c.depth);
-  if (y < getSeaLevelY() - 20 || y > h + 40) return;
+  const seaLevel = getSeaLevelY();
+  if (y > h + 40) return;
+  if (y < seaLevel - 45) return;
 
   const fade = c.photoFade || 0;
-  const alpha = spotted ? Math.max(0, 1 - fade) : 1;
+  let alpha = spotted ? Math.max(0, 1 - fade) : 1;
+  if (y < seaLevel + 35) {
+    alpha *= clamp((y - (seaLevel - 30)) / 65, 0, 1);
+  }
   if (alpha <= 0.02) return;
 
   let style = 'color';
