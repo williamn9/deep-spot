@@ -263,7 +263,7 @@ function drawFishCardToCanvas(info) {
   c.fillText((RARITY_LABELS[info.rarity] || info.rarity).toUpperCase(), w / 2, 72);
 
   c.font = '120px serif';
-  c.fillText(info.emoji, w / 2, 230);
+  drawCreatureSpriteToCanvas(c, info, w / 2, 230, 120);
 
   c.fillStyle = '#e8f4ff';
   c.font = 'bold 42px system-ui, sans-serif';
@@ -390,6 +390,9 @@ async function shareCanvasAsImage(fileName, title, text) {
 }
 
 async function shareFishCardImage(info) {
+  if (typeof preloadCreatureSprites === 'function') {
+    await preloadCreatureSprites();
+  }
   drawFishCardToCanvas(info);
   await shareCanvasAsImage(
     `deep-spot-${info.id}.png`,
@@ -415,7 +418,11 @@ function populateFishCard(creatureType) {
   const cardEl = fishCardScreen.querySelector('.fish-card');
   if (cardEl) cardEl.dataset.rarity = info.rarity;
   if (fishCardRarity) fishCardRarity.textContent = RARITY_LABELS[info.rarity] || info.rarity;
-  if (fishCardEmoji) fishCardEmoji.textContent = info.emoji;
+  if (typeof setFishCardArt === 'function') {
+    setFishCardArt(creatureType);
+  } else if (fishCardEmoji) {
+    fishCardEmoji.textContent = info.emoji;
+  }
   if (fishCardName) fishCardName.textContent = info.name;
   if (fishCardDesc) fishCardDesc.textContent = info.description;
   if (fishCardPoints) {

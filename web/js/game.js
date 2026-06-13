@@ -536,10 +536,16 @@ function appendAlbumSectionLabel(text, isSub) {
 function appendAlbumDiscoveredRow(type) {
   const li = document.createElement('li');
   li.className = `collection-item collection-item-tappable spotted-${type.rarity}`;
-  li.innerHTML =
-    `<span class="collection-emoji">${type.emoji}</span>` +
-    `<span class="collection-name">${type.name}</span>` +
-    `<span class="collection-meta">View card ›</span>`;
+  const emojiSpan = document.createElement('span');
+  emojiSpan.className = 'collection-emoji';
+  emojiSpan.appendChild(createCreatureSpriteImg(type, { size: 28 }));
+  const nameSpan = document.createElement('span');
+  nameSpan.className = 'collection-name';
+  nameSpan.textContent = type.name;
+  const metaSpan = document.createElement('span');
+  metaSpan.className = 'collection-meta';
+  metaSpan.textContent = 'View card ›';
+  li.append(emojiSpan, nameSpan, metaSpan);
   li.addEventListener('click', () => {
     if (typeof openFishCardFromAlbum === 'function') {
       openFishCardFromAlbum(type);
@@ -1595,7 +1601,7 @@ function createDiveMiniCardEl(creatureType) {
   el.dataset.id = creatureType.id;
   el.dataset.rarity = creatureType.rarity || 'common';
   el.setAttribute('title', creatureType.name);
-  el.textContent = creatureType.emoji;
+  el.appendChild(createCreatureSpriteImg(creatureType, { className: 'dive-mini-card-sprite', size: 32 }));
   return el;
 }
 
@@ -2054,7 +2060,7 @@ function update(dt) {
         if (typeof presentCaptureFishCard === 'function') {
           presentCaptureFishCard(c.type);
         }
-        showSpotToast(`${c.type.emoji} New species card!`);
+        showSpotToast(`${c.type.name} — New species card!`);
         if (typeof Sounds !== 'undefined') Sounds.newSpecies();
       } else {
         showSpotToast('📷 Photo taken');
@@ -2550,15 +2556,24 @@ function drawCreature(c) {
   const alpha = spotted ? Math.max(0, 1 - fade) : 1;
   if (alpha <= 0.02) return;
 
-  const discovered = isSpeciesDiscoveredInAlbum(type);
   let style = 'color';
   if (spotted) {
     style = 'spotted';
-  } else if (!discovered) {
-    style = 'silhouette';
   }
+  // Pixel sprites stay full-color in the water so they are visible to frame and shoot.
+  // Undiscovered mystery is handled in the album and on first-capture cards.
 
-  drawCreatureEmoji(x, y, type.emoji, style, alpha, fade, shouldFlipCreatureEmoji(type, c.facing ?? 1));
+  drawCreatureSprite(
+    ctx,
+    x,
+    y,
+    type,
+    style,
+    alpha,
+    fade,
+    shouldFlipCreatureSprite(type, c.facing ?? 1),
+    40
+  );
 
   if (spotted && alpha > 0.15) {
     ctx.save();
@@ -3070,6 +3085,7 @@ if (!window.isSecureContext && /iPhone|iPad|iPod|Android/i.test(navigator.userAg
 
 migratePhotoCountIfNeeded();
 migrateTankTierIfNeeded();
+preloadCreatureSprites(CREATURE_TYPES);
 if (getCookie(TANK_TIER_COOKIE) == null && getCookie(TANK_APPLIED_COOKIE) == null) {
   setAppliedTankTierIndex(0);
 }
