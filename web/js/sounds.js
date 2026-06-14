@@ -198,6 +198,16 @@ const Sounds = (function () {
       playBubble(t + 0.05, 0.03, 660);
     },
 
+    dash() {
+      const c = ac();
+      if (!c || !ensureReady()) return;
+      const t = c.currentTime;
+      playNoise(0.1, 0.07, t, 900);
+      playTone(180, 0.08, 'sine', 0.05, t);
+      playTone(120, 0.12, 'sine', 0.038, t + 0.04);
+      playBubbleTrail(4, t + 0.02, 0.05, 0.03);
+    },
+
     newSpecies() {
       const c = ac();
       if (!c || !ensureReady()) return;

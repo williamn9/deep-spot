@@ -27,58 +27,7 @@ const spotToast = document.getElementById('spotToast');
 const pauseHint = document.getElementById('pauseHint');
 const httpsHint = document.getElementById('httpsHint');
 
-// --- Creature definitions (rarity increases with depth) ---
-const CREATURE_TYPES = [
-  { id: 'sardine', emoji: '🐟', name: 'Sardine', rarity: 'common', points: 10, minDepth: 0, weight: 34 },
-  { id: 'shrimp', emoji: '🦐', name: 'Reef Shrimp', rarity: 'common', points: 8, minDepth: 1, weight: 36 },
-  { id: 'clownfish', emoji: '🐠', name: 'Clownfish', rarity: 'common', points: 15, minDepth: 3, weight: 32 },
-  { id: 'shell', emoji: '🐚', name: 'Queen Conch', rarity: 'common', points: 11, minDepth: 5, weight: 30 },
-  { id: 'crab', emoji: '🦀', name: 'Hermit Crab', rarity: 'common', points: 12, minDepth: 8, weight: 28 },
-  { id: 'jelly', emoji: '🪼', name: 'Moon Jelly', rarity: 'uncommon', points: 25, minDepth: 15, weight: 24 },
-  { id: 'seal', emoji: '🦭', name: 'Harbor Seal', rarity: 'uncommon', points: 28, minDepth: 18, weight: 20 },
-  { id: 'turtle', emoji: '🐢', name: 'Sea Turtle', rarity: 'uncommon', points: 30, minDepth: 22, weight: 19 },
-  { id: 'dolphin', emoji: '🐬', name: 'Dolphin', rarity: 'uncommon', points: 38, minDepth: 28, weight: 17 },
-  { id: 'octopus', emoji: '🐙', name: 'Octopus', rarity: 'uncommon', points: 35, minDepth: 32, weight: 16 },
-  { id: 'lobster', emoji: '🦞', name: 'Spiny Lobster', rarity: 'uncommon', points: 42, minDepth: 38, weight: 15 },
-  { id: 'ray', emoji: '🐡', name: 'Pufferfish', rarity: 'rare', points: 50, minDepth: 45, weight: 12 },
-  { id: 'eel', emoji: '🐍', name: 'Moray Eel', rarity: 'rare', points: 55, minDepth: 55, weight: 11 },
-  { id: 'shark', emoji: '🦈', name: 'Reef Shark', rarity: 'rare', points: 65, minDepth: 65, weight: 10 },
-  { id: 'angler', emoji: '🐟', name: 'Anglerfish', rarity: 'rare', points: 75, minDepth: 80, weight: 8 },
-  { id: 'squid', emoji: '🦑', name: 'Giant Squid', rarity: 'legendary', points: 120, minDepth: 100, weight: 5 },
-  { id: 'whale', emoji: '🐋', name: 'Blue Whale', rarity: 'legendary', points: 200, minDepth: 120, weight: 4 },
-  { id: 'viperfish', emoji: '🐉', name: 'Viperfish', rarity: 'rare', points: 90, minDepth: 150, weight: 6 },
-  { id: 'blobfish', emoji: '🫠', name: 'Blobfish', rarity: 'rare', points: 85, minDepth: 200, weight: 5 },
-  { id: 'coelacanth', emoji: '🐟', name: 'Coelacanth', rarity: 'legendary', points: 150, minDepth: 280, weight: 3 },
-  { id: 'vampire', emoji: '🦑', name: 'Vampire Squid', rarity: 'legendary', points: 180, minDepth: 400, weight: 2 },
-  { id: 'leviathan', emoji: '🐋', name: 'Abyssal Leviathan', rarity: 'legendary', points: 300, minDepth: 600, weight: 1 },
-];
-
-/** Per-species swim behaviour — style, speed (px/s), vertical sway, etc. */
-const CREATURE_SWIM = {
-  _default: { style: 'cruise', speed: 28, vert: 3, wobble: 10, phaseSpd: 2, depthRange: 4 },
-  sardine: { style: 'school', speed: 52, vert: 5, wobble: 12, phaseSpd: 3.5, depthRange: 6 },
-  shrimp: { style: 'dart', speed: 38, vert: 10, phaseSpd: 4.8, depthRange: 3 },
-  clownfish: { style: 'hover', speed: 22, vert: 4, wobble: 8, phaseSpd: 2.8, depthRange: 2 },
-  shell: { style: 'settled', phaseSpd: 0.35, depthRange: 0.35, noFlip: true },
-  crab: { style: 'bottom', speed: 14, phaseSpd: 2.2, depthRange: 2 },
-  jelly: { style: 'drift', speed: 14, vert: 9, drift: 7, phaseSpd: 1.3, depthRange: 9 },
-  seal: { style: 'fast_cruise', speed: 44, vert: 7, wobble: 10, phaseSpd: 2.4, depthRange: 11 },
-  turtle: { style: 'cruise', speed: 20, vert: 4, wobble: 6, phaseSpd: 1.4, depthRange: 9 },
-  dolphin: { style: 'fast_cruise', speed: 60, vert: 14, wobble: 8, phaseSpd: 2.9, depthRange: 16 },
-  octopus: { style: 'jet', speed: 30, vert: 10, phaseSpd: 1.55, depthRange: 7 },
-  lobster: { style: 'bottom', speed: 11, phaseSpd: 1.7, depthRange: 3 },
-  ray: { style: 'hover', speed: 16, vert: 5, wobble: 11, phaseSpd: 1.6, depthRange: 5 },
-  eel: { style: 'stalk', speed: 18, wobble: 20, vert: 3, phaseSpd: 2.1, depthRange: 4 },
-  shark: { style: 'patrol', speed: 40, vert: 6, wobble: 5, phaseSpd: 1.9, depthRange: 14 },
-  angler: { style: 'stalk', speed: 7, wobble: 5, vert: 2, phaseSpd: 1, depthRange: 3 },
-  squid: { style: 'jet', speed: 34, vert: 13, phaseSpd: 1.85, depthRange: 11 },
-  whale: { style: 'glide', speed: 24, vert: 7, phaseSpd: 0.85, depthRange: 22 },
-  viperfish: { style: 'dart', speed: 32, vert: 9, phaseSpd: 3.1, depthRange: 9 },
-  blobfish: { style: 'drift', speed: 7, vert: 2.5, drift: 3, phaseSpd: 0.75, depthRange: 4 },
-  coelacanth: { style: 'glide', speed: 13, vert: 4, phaseSpd: 0.65, depthRange: 9 },
-  vampire: { style: 'drift', speed: 11, vert: 6, drift: 5, phaseSpd: 0.95, depthRange: 13 },
-  leviathan: { style: 'glide', speed: 16, vert: 9, phaseSpd: 0.5, depthRange: 28 },
-};
+// CREATURE_TYPES + CREATURE_SWIM — loaded from species-data.js (100 species)
 
 function getCreatureSwim(type) {
   return CREATURE_SWIM[type.id] || CREATURE_SWIM._default;
@@ -683,11 +632,11 @@ const WORLD = {
   cliffMinDepth: 22,
   cliffLayoutDepth: 2500,
   dive: {
-    baseSink: 0.45,
-    diveTiltBoost: 8,
-    riseTiltBoost: 17,
-    maxRate: 6.5,
-    minRate: -9.5,
+    baseSink: 0.58,
+    diveTiltBoost: 10,
+    riseTiltBoost: 22,
+    maxRate: 8.5,
+    minRate: -12,
   },
 };
 
@@ -728,6 +677,19 @@ const NET_ESCAPE = {
   required: 120,
   shakeThreshold: 6.5,
   airDrainPerSec: 28,
+};
+
+const DASH = {
+  speed: 520,
+  duration: 0.15,
+  airDrainPerSec: 115,
+};
+
+let dash = {
+  active: false,
+  timer: 0,
+  nx: 1,
+  ny: 0,
 };
 
 const NET_VISUAL = {
@@ -1556,6 +1518,10 @@ function resetGame() {
   invulnTimer = 0;
   diverBubbleTimer = 0;
   diverBubbles = [];
+  dash.active = false;
+  dash.timer = 0;
+  dash.nx = 1;
+  dash.ny = 0;
   calibrateGyro();
   initScrollDecor();
   initAmbientBubbles();
@@ -1931,6 +1897,71 @@ function cullWorldEntities() {
   });
 }
 
+function canDash() {
+  if (gameState !== 'playing' || netTangle.active || dash.active) return false;
+  if (typeof isRewardOverlayOpen === 'function' && isRewardOverlayOpen()) return false;
+  return true;
+}
+
+function computeDiveRate() {
+  syncEffectiveTilt();
+  let diveRate = WORLD.dive.baseSink;
+  if (motionIsLive()) {
+    const pitch = pitchResponse(motion.tiltY);
+    if (pitch > 0) {
+      const diveGain = 1 + pitch * 0.55;
+      diveRate += pitch * WORLD.dive.diveTiltBoost * diveGain;
+    } else if (pitch < 0) {
+      const riseGain = 1 + Math.abs(pitch) * 1.2;
+      diveRate += pitch * WORLD.dive.riseTiltBoost * riseGain;
+    }
+  }
+  diveRate = clamp(diveRate, WORLD.dive.minRate, WORLD.dive.maxRate);
+  if (depth <= 0 && diveRate < 0) diveRate = 0;
+  return diveRate;
+}
+
+function getDashVector() {
+  let hx = diver.vx;
+  let vy = computeDiveRate();
+
+  if (Math.abs(hx) < 20 && motionIsLive() && Math.abs(motion.tiltX) > 0.04) {
+    hx = motion.tiltX * 120;
+  } else if (Math.abs(hx) < 5) {
+    hx = (diver.facing || 1) * 40;
+  }
+
+  const hy = vy * WORLD.pixelsPerMeter;
+  const mag = Math.hypot(hx, hy);
+  if (mag < 1e-3) {
+    return { nx: diver.facing || 1, ny: 0.35 };
+  }
+  return { nx: hx / mag, ny: hy / mag };
+}
+
+function tryDash() {
+  if (!canDash()) return false;
+  unlockGameAudio();
+
+  const vec = getDashVector();
+  dash.nx = vec.nx;
+  dash.ny = vec.ny;
+  dash.active = true;
+  dash.timer = DASH.duration;
+  if (Math.abs(dash.nx) > 0.12) diver.facing = Math.sign(dash.nx);
+  diver.vx = dash.nx * DASH.speed;
+
+  for (let i = 0; i < 6; i++) spawnDiverBubble();
+  if (typeof Sounds !== 'undefined') Sounds.dash();
+  return true;
+}
+
+function cancelDash() {
+  if (!dash.active) return;
+  dash.active = false;
+  dash.timer = 0;
+}
+
 function updateHUD() {
   depthValue.textContent = formatDepth(depth);
   const maxAir = getMaxAir();
@@ -1957,27 +1988,18 @@ function pitchResponse(tiltY) {
   return -Math.pow(mag, 0.32);
 }
 
+function dashDepthRate() {
+  return dash.ny * (DASH.speed / WORLD.pixelsPerMeter);
+}
+
 function update(dt) {
   if (gameState !== 'playing') return;
 
-  const accelX = 520;
-  const maxSpeedX = 380;
-  const dragX = 0.91;
+  const accelX = 680;
+  const maxSpeedX = 500;
+  const dragX = 0.92;
 
-  syncEffectiveTilt();
-
-  let diveRate = WORLD.dive.baseSink;
-  if (motionIsLive()) {
-    const pitch = pitchResponse(motion.tiltY);
-    if (pitch > 0) {
-      const diveGain = 1 + pitch * 0.55;
-      diveRate += pitch * WORLD.dive.diveTiltBoost * diveGain;
-    } else if (pitch < 0) {
-      const riseGain = 1 + Math.abs(pitch) * 1.2;
-      diveRate += pitch * WORLD.dive.riseTiltBoost * riseGain;
-    }
-  }
-  diveRate = clamp(diveRate, WORLD.dive.minRate, WORLD.dive.maxRate);
+  let diveRate = computeDiveRate();
 
   const tangled = updateNetTangle(dt);
   if (tangled) {
@@ -1985,18 +2007,31 @@ function update(dt) {
     diver.vx *= 0.72;
   }
 
-  if (depth <= 0 && diveRate < 0) diveRate = 0;
+  if (dash.active) {
+    dash.timer -= dt;
+    diver.vx = dash.nx * DASH.speed;
+    let depthDelta = dashDepthRate() * dt;
+    if (depth <= 0 && depthDelta < 0) depthDelta = 0;
+    depth = Math.max(0, depth + depthDelta);
+    maxDepthReached = Math.max(maxDepthReached, depth);
+    if (dash.timer <= 0) {
+      dash.active = false;
+      diver.vx = dash.nx * DASH.speed * 0.35;
+    }
+  } else {
+    depth = Math.max(0, depth + diveRate * dt);
+    maxDepthReached = Math.max(maxDepthReached, depth);
 
-  depth = Math.max(0, depth + diveRate * dt);
-  maxDepthReached = Math.max(maxDepthReached, depth);
+    if (!tangled) {
+      if (motionIsLive()) {
+        const boostX = 1 + Math.abs(motion.tiltX) * 0.15;
+        diver.vx += motion.tiltX * accelX * boostX * dt;
+      }
 
-  if (motionIsLive()) {
-    const boostX = 1 + Math.abs(motion.tiltX) * 0.15;
-    diver.vx += motion.tiltX * accelX * boostX * dt;
+      diver.vx *= dragX;
+      diver.vx = clamp(diver.vx, -maxSpeedX, maxSpeedX);
+    }
   }
-
-  diver.vx *= dragX;
-  diver.vx = clamp(diver.vx, -maxSpeedX, maxSpeedX);
   diver.x += diver.vx * dt;
   diver.x = clamp(diver.x, diver.radius + 8, w - diver.radius - 8);
 
@@ -2017,6 +2052,7 @@ function update(dt) {
       ? WORLD.surfaceRefillRate
       : WORLD.surfaceRefillRate * 0.55;
     air = Math.min(maxAir, air + refillRate * dt);
+    if (dash.active) air -= DASH.airDrainPerSec * dt;
 
     if (pendingSpots.length > 0 && !surfaceCommitted && !albumArchiveActive) {
       surfaceCommitTimer += dt;
@@ -2037,6 +2073,7 @@ function update(dt) {
     if (depth < WORLD.shallowDepth) {
       drain = Math.max(0.5, drain - WORLD.shallowAirBonus);
     }
+    if (dash.active) drain += DASH.airDrainPerSec;
     air -= drain * dt;
   }
   air = clamp(air, 0, maxAir);
@@ -2166,6 +2203,7 @@ function update(dt) {
 
     if (o.type.id === 'net') {
       if (!netTangle.active) {
+          cancelDash();
           netTangle.active = true;
           netTangle.netObstacle = o;
           netTangle.escapeProgress = 0;
@@ -3137,57 +3175,59 @@ document.addEventListener('touchmove', (e) => {
   e.preventDefault();
 }, { passive: false });
 
-// Touch drag always available (works alongside gyro)
-let touchActive = false;
-let lastTouchX = 0;
-let lastTouchY = 0;
+// Tap anywhere on the dive view to dash (direction follows gyro tilt)
+const appEl = document.getElementById('app');
 
-canvas.addEventListener('touchstart', (e) => {
-  if (gameState !== 'playing') return;
-  touchActive = true;
-  const t = e.touches[0];
-  lastTouchX = t.clientX;
-  lastTouchY = t.clientY;
-}, { passive: false });
+let netShakePointer = null;
 
-canvas.addEventListener('touchmove', (e) => {
-  if (!touchActive || gameState !== 'playing') return;
-  e.preventDefault();
-  const t = e.touches[0];
-  const dx = t.clientX - lastTouchX;
-  const dy = t.clientY - lastTouchY;
-  lastTouchX = t.clientX;
-  lastTouchY = t.clientY;
-  if (netTangle.active) {
-    addNetShakeFromPointer(dx, dy);
-    return;
+function pointerInputAllowed() {
+  if (gameState !== 'playing') return false;
+  if (typeof isRewardOverlayOpen === 'function' && isRewardOverlayOpen()) return false;
+  return true;
+}
+
+function isDashPointerTarget(e) {
+  if (!pointerInputAllowed()) return false;
+  if (e.target.closest('button, a, .fish-card, .collection-scroll, .overlay:not(.hidden)')) {
+    return false;
   }
-  diver.vx += dx * 12;
-  depth = Math.max(0, depth - dy * 0.035);
-}, { passive: false });
+  return true;
+}
 
-canvas.addEventListener('touchend', () => { touchActive = false; });
-
-// Desktop mouse fallback
-let mouseDown = false;
-let lastMouseX = 0;
-let lastMouseY = 0;
-canvas.addEventListener('mousedown', (e) => {
-  mouseDown = true;
-  lastMouseX = e.clientX;
-  lastMouseY = e.clientY;
-});
-canvas.addEventListener('mouseup', () => { mouseDown = false; });
-canvas.addEventListener('mousemove', (e) => {
-  if (!mouseDown || gameState !== 'playing') return;
-  const dx = e.clientX - lastMouseX;
-  const dy = e.clientY - lastMouseY;
-  lastMouseX = e.clientX;
-  lastMouseY = e.clientY;
+function handleDashPointerDown(e) {
+  if (!e.isPrimary) return;
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
+  if (!isDashPointerTarget(e)) return;
+  unlockGameAudio();
+  tryDash();
   if (netTangle.active) {
-    addNetShakeFromPointer(dx, dy);
-    return;
+    netShakePointer = { id: e.pointerId, lastX: e.clientX, lastY: e.clientY };
+    try {
+      (e.currentTarget || appEl).setPointerCapture(e.pointerId);
+    } catch {
+      // ignored
+    }
   }
-  diver.vx += dx * 8;
-  depth = Math.max(0, depth - dy * 0.025);
-});
+}
+
+function handleDashPointerMove(e) {
+  if (!netTangle.active || !netShakePointer || netShakePointer.id !== e.pointerId) return;
+  const dx = e.clientX - netShakePointer.lastX;
+  const dy = e.clientY - netShakePointer.lastY;
+  netShakePointer.lastX = e.clientX;
+  netShakePointer.lastY = e.clientY;
+  if (dx !== 0 || dy !== 0) addNetShakeFromPointer(dx, dy);
+}
+
+function clearNetShakePointer(e) {
+  if (netShakePointer && netShakePointer.id === e.pointerId) {
+    netShakePointer = null;
+  }
+}
+
+if (appEl) {
+  appEl.addEventListener('pointerdown', handleDashPointerDown, { capture: true });
+  appEl.addEventListener('pointermove', handleDashPointerMove, { capture: true });
+  appEl.addEventListener('pointerup', clearNetShakePointer, { capture: true });
+  appEl.addEventListener('pointercancel', clearNetShakePointer, { capture: true });
+}
