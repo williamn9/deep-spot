@@ -8,6 +8,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Sardine",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 8,
     "minDepth": 0,
     "weight": 36
@@ -17,6 +18,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd90",
     "name": "Reef Shrimp",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 8,
     "minDepth": 1,
     "weight": 36
@@ -26,6 +28,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc20",
     "name": "Clownfish",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 9,
     "minDepth": 1,
     "weight": 35
@@ -35,6 +38,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1a",
     "name": "Queen Conch",
     "rarity": "common",
+    "sizeGroup": "small",
     "points": 9,
     "minDepth": 2,
     "weight": 35
@@ -44,6 +48,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd80",
     "name": "Hermit Crab",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 9,
     "minDepth": 2,
     "weight": 35
@@ -53,6 +58,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Anchovy",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 10,
     "minDepth": 3,
     "weight": 34
@@ -62,6 +68,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Silverside",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 10,
     "minDepth": 4,
     "weight": 34
@@ -71,6 +78,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc20",
     "name": "Damselfish",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 10,
     "minDepth": 4,
     "weight": 34
@@ -80,6 +88,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Parrotfish",
     "rarity": "common",
+    "sizeGroup": "small",
     "points": 11,
     "minDepth": 5,
     "weight": 33
@@ -89,6 +98,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc20",
     "name": "Butterflyfish",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 11,
     "minDepth": 5,
     "weight": 33
@@ -98,6 +108,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Blenny",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 11,
     "minDepth": 6,
     "weight": 33
@@ -107,6 +118,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Goby",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 12,
     "minDepth": 6,
     "weight": 32
@@ -116,6 +128,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc34",
     "name": "Seahorse",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 12,
     "minDepth": 7,
     "weight": 32
@@ -125,6 +138,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Pipefish",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 12,
     "minDepth": 8,
     "weight": 32
@@ -134,6 +148,7 @@ const CREATURE_TYPES = [
     "emoji": "\u2b50",
     "name": "Sea Star",
     "rarity": "common",
+    "sizeGroup": "small",
     "points": 13,
     "minDepth": 8,
     "weight": 31
@@ -143,6 +158,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd94",
     "name": "Sea Urchin",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 13,
     "minDepth": 9,
     "weight": 31
@@ -152,6 +168,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83c\udf38",
     "name": "Magnificent Anemone",
     "rarity": "common",
+    "sizeGroup": "small",
     "points": 13,
     "minDepth": 9,
     "weight": 31
@@ -161,6 +178,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd90",
     "name": "Pistol Shrimp",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 14,
     "minDepth": 10,
     "weight": 30
@@ -170,6 +188,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Blue Tang",
     "rarity": "common",
+    "sizeGroup": "small",
     "points": 14,
     "minDepth": 10,
     "weight": 30
@@ -179,6 +198,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Yellowtail Snapper",
     "rarity": "common",
+    "sizeGroup": "small",
     "points": 14,
     "minDepth": 11,
     "weight": 30
@@ -188,6 +208,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Sergeant Major",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 15,
     "minDepth": 12,
     "weight": 29
@@ -197,6 +218,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Striped Mullet",
     "rarity": "common",
+    "sizeGroup": "small",
     "points": 15,
     "minDepth": 12,
     "weight": 29
@@ -206,6 +228,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\ude99",
     "name": "Sand Dollar",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 15,
     "minDepth": 13,
     "weight": 29
@@ -215,6 +238,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd52",
     "name": "Sea Cucumber",
     "rarity": "common",
+    "sizeGroup": "small",
     "points": 16,
     "minDepth": 13,
     "weight": 28
@@ -224,6 +248,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udeb1",
     "name": "Fireworm",
     "rarity": "common",
+    "sizeGroup": "tiny",
     "points": 16,
     "minDepth": 14,
     "weight": 28
@@ -233,6 +258,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udebc",
     "name": "Moon Jelly",
     "rarity": "uncommon",
+    "sizeGroup": "small",
     "points": 22,
     "minDepth": 15,
     "weight": 24
@@ -242,6 +268,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\uddad",
     "name": "Harbor Seal",
     "rarity": "uncommon",
+    "sizeGroup": "medium",
     "points": 23,
     "minDepth": 18,
     "weight": 24
@@ -251,6 +278,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc22",
     "name": "Sea Turtle",
     "rarity": "uncommon",
+    "sizeGroup": "medium",
     "points": 24,
     "minDepth": 20,
     "weight": 23
@@ -260,6 +288,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc2c",
     "name": "Dolphin",
     "rarity": "uncommon",
+    "sizeGroup": "large",
     "points": 25,
     "minDepth": 23,
     "weight": 23
@@ -269,6 +298,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc19",
     "name": "Octopus",
     "rarity": "uncommon",
+    "sizeGroup": "medium",
     "points": 26,
     "minDepth": 26,
     "weight": 22
@@ -278,6 +308,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd9e",
     "name": "Spiny Lobster",
     "rarity": "uncommon",
+    "sizeGroup": "medium",
     "points": 27,
     "minDepth": 28,
     "weight": 22
@@ -287,6 +318,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc21",
     "name": "Lionfish",
     "rarity": "uncommon",
+    "sizeGroup": "small",
     "points": 28,
     "minDepth": 31,
     "weight": 22
@@ -296,6 +328,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Southern Stingray",
     "rarity": "uncommon",
+    "sizeGroup": "medium",
     "points": 28,
     "minDepth": 34,
     "weight": 21
@@ -305,6 +338,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Manta Ray",
     "rarity": "uncommon",
+    "sizeGroup": "large",
     "points": 29,
     "minDepth": 36,
     "weight": 21
@@ -314,6 +348,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Barracuda",
     "rarity": "uncommon",
+    "sizeGroup": "medium",
     "points": 30,
     "minDepth": 39,
     "weight": 21
@@ -323,6 +358,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Nassau Grouper",
     "rarity": "uncommon",
+    "sizeGroup": "medium",
     "points": 31,
     "minDepth": 42,
     "weight": 20
@@ -332,6 +368,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Red Snapper",
     "rarity": "uncommon",
+    "sizeGroup": "medium",
     "points": 32,
     "minDepth": 44,
     "weight": 20
@@ -341,6 +378,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc21",
     "name": "Picasso Triggerfish",
     "rarity": "uncommon",
+    "sizeGroup": "small",
     "points": 33,
     "minDepth": 47,
     "weight": 20
@@ -350,6 +388,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc21",
     "name": "Boxfish",
     "rarity": "uncommon",
+    "sizeGroup": "small",
     "points": 34,
     "minDepth": 50,
     "weight": 19
@@ -359,6 +398,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1a",
     "name": "Chambered Nautilus",
     "rarity": "uncommon",
+    "sizeGroup": "small",
     "points": 35,
     "minDepth": 52,
     "weight": 19
@@ -368,6 +408,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd91",
     "name": "Cuttlefish",
     "rarity": "uncommon",
+    "sizeGroup": "small",
     "points": 36,
     "minDepth": 55,
     "weight": 18
@@ -377,6 +418,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\uddad",
     "name": "Sea Lion",
     "rarity": "uncommon",
+    "sizeGroup": "large",
     "points": 37,
     "minDepth": 58,
     "weight": 18
@@ -386,6 +428,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc0b",
     "name": "Manatee",
     "rarity": "uncommon",
+    "sizeGroup": "large",
     "points": 38,
     "minDepth": 60,
     "weight": 18
@@ -395,6 +438,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc0b",
     "name": "Dugong",
     "rarity": "uncommon",
+    "sizeGroup": "large",
     "points": 38,
     "minDepth": 63,
     "weight": 17
@@ -404,6 +448,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc0d",
     "name": "Banded Sea Krait",
     "rarity": "uncommon",
+    "sizeGroup": "medium",
     "points": 39,
     "minDepth": 66,
     "weight": 17
@@ -413,6 +458,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd88",
     "name": "Bonnethead Shark",
     "rarity": "uncommon",
+    "sizeGroup": "medium",
     "points": 40,
     "minDepth": 68,
     "weight": 16
@@ -422,6 +468,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd88",
     "name": "Nurse Shark",
     "rarity": "uncommon",
+    "sizeGroup": "large",
     "points": 41,
     "minDepth": 71,
     "weight": 16
@@ -431,6 +478,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc0d",
     "name": "Wolf Eel",
     "rarity": "uncommon",
+    "sizeGroup": "medium",
     "points": 42,
     "minDepth": 74,
     "weight": 16
@@ -440,6 +488,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Ocean Sunfish",
     "rarity": "uncommon",
+    "sizeGroup": "large",
     "points": 43,
     "minDepth": 76,
     "weight": 15
@@ -449,6 +498,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Flying Fish",
     "rarity": "uncommon",
+    "sizeGroup": "small",
     "points": 44,
     "minDepth": 79,
     "weight": 15
@@ -458,6 +508,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc21",
     "name": "Pufferfish",
     "rarity": "rare",
+    "sizeGroup": "small",
     "points": 50,
     "minDepth": 45,
     "weight": 12
@@ -467,6 +518,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc0d",
     "name": "Moray Eel",
     "rarity": "rare",
+    "sizeGroup": "medium",
     "points": 52,
     "minDepth": 54,
     "weight": 12
@@ -476,6 +528,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd88",
     "name": "Reef Shark",
     "rarity": "rare",
+    "sizeGroup": "medium",
     "points": 54,
     "minDepth": 62,
     "weight": 11
@@ -485,6 +538,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Anglerfish",
     "rarity": "rare",
+    "sizeGroup": "small",
     "points": 56,
     "minDepth": 71,
     "weight": 11
@@ -494,6 +548,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc09",
     "name": "Viperfish",
     "rarity": "rare",
+    "sizeGroup": "medium",
     "points": 58,
     "minDepth": 79,
     "weight": 11
@@ -503,6 +558,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udee0",
     "name": "Blobfish",
     "rarity": "rare",
+    "sizeGroup": "small",
     "points": 60,
     "minDepth": 88,
     "weight": 11
@@ -512,6 +568,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Eagle Ray",
     "rarity": "rare",
+    "sizeGroup": "large",
     "points": 62,
     "minDepth": 96,
     "weight": 10
@@ -521,6 +578,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd88",
     "name": "Thresher Shark",
     "rarity": "rare",
+    "sizeGroup": "large",
     "points": 64,
     "minDepth": 105,
     "weight": 10
@@ -530,6 +588,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd88",
     "name": "Hammerhead Shark",
     "rarity": "rare",
+    "sizeGroup": "large",
     "points": 66,
     "minDepth": 113,
     "weight": 10
@@ -539,6 +598,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd88",
     "name": "Whale Shark",
     "rarity": "rare",
+    "sizeGroup": "giant",
     "points": 68,
     "minDepth": 122,
     "weight": 9
@@ -548,6 +608,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd88",
     "name": "Tiger Shark",
     "rarity": "rare",
+    "sizeGroup": "large",
     "points": 70,
     "minDepth": 130,
     "weight": 9
@@ -557,6 +618,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Oarfish",
     "rarity": "rare",
+    "sizeGroup": "large",
     "points": 72,
     "minDepth": 139,
     "weight": 9
@@ -566,6 +628,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc0d",
     "name": "Gulper Eel",
     "rarity": "rare",
+    "sizeGroup": "medium",
     "points": 74,
     "minDepth": 148,
     "weight": 8
@@ -575,6 +638,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Black Dragonfish",
     "rarity": "rare",
+    "sizeGroup": "tiny",
     "points": 76,
     "minDepth": 156,
     "weight": 8
@@ -584,6 +648,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Fangtooth",
     "rarity": "rare",
+    "sizeGroup": "tiny",
     "points": 78,
     "minDepth": 165,
     "weight": 8
@@ -593,6 +658,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udebc",
     "name": "Atolla Jelly",
     "rarity": "rare",
+    "sizeGroup": "small",
     "points": 80,
     "minDepth": 173,
     "weight": 8
@@ -602,6 +668,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc19",
     "name": "Dumbo Octopus",
     "rarity": "rare",
+    "sizeGroup": "tiny",
     "points": 82,
     "minDepth": 182,
     "weight": 7
@@ -611,6 +678,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd88",
     "name": "Goblin Shark",
     "rarity": "rare",
+    "sizeGroup": "large",
     "points": 84,
     "minDepth": 190,
     "weight": 7
@@ -620,6 +688,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd88",
     "name": "Frilled Shark",
     "rarity": "rare",
+    "sizeGroup": "medium",
     "points": 86,
     "minDepth": 199,
     "weight": 7
@@ -629,6 +698,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd88",
     "name": "Sixgill Shark",
     "rarity": "rare",
+    "sizeGroup": "large",
     "points": 88,
     "minDepth": 207,
     "weight": 6
@@ -638,6 +708,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Barreleye",
     "rarity": "rare",
+    "sizeGroup": "tiny",
     "points": 90,
     "minDepth": 216,
     "weight": 6
@@ -647,6 +718,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Hatchetfish",
     "rarity": "rare",
+    "sizeGroup": "tiny",
     "points": 92,
     "minDepth": 224,
     "weight": 6
@@ -656,6 +728,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Stoplight Loosejaw",
     "rarity": "rare",
+    "sizeGroup": "tiny",
     "points": 94,
     "minDepth": 233,
     "weight": 6
@@ -665,6 +738,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd9e",
     "name": "Deep-sea Lobster",
     "rarity": "rare",
+    "sizeGroup": "medium",
     "points": 96,
     "minDepth": 241,
     "weight": 5
@@ -674,6 +748,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Lanternfish",
     "rarity": "rare",
+    "sizeGroup": "tiny",
     "points": 98,
     "minDepth": 250,
     "weight": 5
@@ -683,6 +758,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd91",
     "name": "Giant Squid",
     "rarity": "legendary",
+    "sizeGroup": "giant",
     "points": 120,
     "minDepth": 100,
     "weight": 5
@@ -692,6 +768,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc0b",
     "name": "Blue Whale",
     "rarity": "legendary",
+    "sizeGroup": "giant",
     "points": 128,
     "minDepth": 127,
     "weight": 5
@@ -701,6 +778,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Coelacanth",
     "rarity": "legendary",
+    "sizeGroup": "medium",
     "points": 135,
     "minDepth": 154,
     "weight": 5
@@ -710,6 +788,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd91",
     "name": "Vampire Squid",
     "rarity": "legendary",
+    "sizeGroup": "small",
     "points": 142,
     "minDepth": 181,
     "weight": 4
@@ -719,6 +798,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc0b",
     "name": "Abyssal Leviathan",
     "rarity": "legendary",
+    "sizeGroup": "giant",
     "points": 150,
     "minDepth": 208,
     "weight": 4
@@ -728,6 +808,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc0b",
     "name": "Sperm Whale",
     "rarity": "legendary",
+    "sizeGroup": "giant",
     "points": 158,
     "minDepth": 235,
     "weight": 4
@@ -737,6 +818,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc0b",
     "name": "Orca",
     "rarity": "legendary",
+    "sizeGroup": "large",
     "points": 165,
     "minDepth": 262,
     "weight": 4
@@ -746,6 +828,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc0b",
     "name": "Humpback Whale",
     "rarity": "legendary",
+    "sizeGroup": "giant",
     "points": 172,
     "minDepth": 290,
     "weight": 4
@@ -755,6 +838,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd84",
     "name": "Narwhal",
     "rarity": "legendary",
+    "sizeGroup": "large",
     "points": 180,
     "minDepth": 317,
     "weight": 4
@@ -764,6 +848,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc0b",
     "name": "Beluga",
     "rarity": "legendary",
+    "sizeGroup": "large",
     "points": 188,
     "minDepth": 344,
     "weight": 4
@@ -773,6 +858,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd91",
     "name": "Colossal Squid",
     "rarity": "legendary",
+    "sizeGroup": "giant",
     "points": 195,
     "minDepth": 371,
     "weight": 3
@@ -782,6 +868,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc19",
     "name": "Giant Pacific Octopus",
     "rarity": "legendary",
+    "sizeGroup": "large",
     "points": 202,
     "minDepth": 398,
     "weight": 3
@@ -791,6 +878,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd88",
     "name": "Megamouth Shark",
     "rarity": "legendary",
+    "sizeGroup": "large",
     "points": 210,
     "minDepth": 425,
     "weight": 3
@@ -800,6 +888,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd88",
     "name": "Greenland Shark",
     "rarity": "legendary",
+    "sizeGroup": "large",
     "points": 218,
     "minDepth": 452,
     "weight": 3
@@ -809,6 +898,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1b",
     "name": "Giant Isopod",
     "rarity": "legendary",
+    "sizeGroup": "small",
     "points": 225,
     "minDepth": 479,
     "weight": 3
@@ -818,6 +908,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd80",
     "name": "Japanese Spider Crab",
     "rarity": "legendary",
+    "sizeGroup": "large",
     "points": 232,
     "minDepth": 506,
     "weight": 2
@@ -827,6 +918,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udd80",
     "name": "Yeti Crab",
     "rarity": "legendary",
+    "sizeGroup": "tiny",
     "points": 240,
     "minDepth": 533,
     "weight": 2
@@ -836,6 +928,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udebc",
     "name": "Stygiomedusa",
     "rarity": "legendary",
+    "sizeGroup": "giant",
     "points": 248,
     "minDepth": 560,
     "weight": 2
@@ -845,6 +938,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Mariana Snailfish",
     "rarity": "legendary",
+    "sizeGroup": "small",
     "points": 255,
     "minDepth": 588,
     "weight": 2
@@ -854,6 +948,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\uddfd",
     "name": "Glass Sponge",
     "rarity": "legendary",
+    "sizeGroup": "small",
     "points": 262,
     "minDepth": 615,
     "weight": 2
@@ -863,6 +958,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83e\udeb1",
     "name": "Giant Tube Worm",
     "rarity": "legendary",
+    "sizeGroup": "medium",
     "points": 270,
     "minDepth": 642,
     "weight": 2
@@ -872,6 +968,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Black Swallower",
     "rarity": "legendary",
+    "sizeGroup": "small",
     "points": 278,
     "minDepth": 669,
     "weight": 2
@@ -881,6 +978,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc1f",
     "name": "Tripod Fish",
     "rarity": "legendary",
+    "sizeGroup": "small",
     "points": 285,
     "minDepth": 696,
     "weight": 1
@@ -890,6 +988,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc19",
     "name": "Midnight Kraken",
     "rarity": "legendary",
+    "sizeGroup": "giant",
     "points": 292,
     "minDepth": 723,
     "weight": 1
@@ -899,6 +998,7 @@ const CREATURE_TYPES = [
     "emoji": "\ud83d\udc09",
     "name": "Hadal Wyrm",
     "rarity": "legendary",
+    "sizeGroup": "giant",
     "points": 300,
     "minDepth": 750,
     "weight": 1
@@ -920,14 +1020,16 @@ const CREATURE_SWIM = {
     "vert": 5,
     "wobble": 12,
     "phaseSpd": 3.5,
-    "depthRange": 6
+    "depthRange": 6,
+    "spriteFacesLeft": true
   },
   "shrimp": {
     "style": "dart",
     "speed": 38,
     "vert": 10,
     "phaseSpd": 4.8,
-    "depthRange": 3
+    "depthRange": 3,
+    "spriteFacesLeft": true
   },
   "clownfish": {
     "style": "hover",
@@ -941,13 +1043,15 @@ const CREATURE_SWIM = {
     "style": "settled",
     "phaseSpd": 0.35,
     "depthRange": 0.35,
-    "noFlip": true
+    "noFlip": true,
+    "spriteNoFlip": true
   },
   "crab": {
     "style": "bottom",
     "speed": 14,
     "phaseSpd": 2.2,
-    "depthRange": 2
+    "depthRange": 2,
+    "spriteFacesLeft": true
   },
   "anchovy": {
     "style": "school",
@@ -955,7 +1059,8 @@ const CREATURE_SWIM = {
     "vert": 5,
     "wobble": 12,
     "phaseSpd": 3.5,
-    "depthRange": 6
+    "depthRange": 6,
+    "spriteFacesLeft": true
   },
   "silverside": {
     "style": "school",
@@ -963,7 +1068,8 @@ const CREATURE_SWIM = {
     "vert": 5,
     "wobble": 12,
     "phaseSpd": 3.5,
-    "depthRange": 6
+    "depthRange": 6,
+    "spriteFacesLeft": true
   },
   "damselfish": {
     "style": "cruise",
@@ -971,7 +1077,8 @@ const CREATURE_SWIM = {
     "vert": 4,
     "wobble": 6,
     "phaseSpd": 1.4,
-    "depthRange": 9
+    "depthRange": 9,
+    "spriteFacesLeft": true
   },
   "parrotfish": {
     "style": "cruise",
@@ -979,7 +1086,8 @@ const CREATURE_SWIM = {
     "vert": 4,
     "wobble": 6,
     "phaseSpd": 1.4,
-    "depthRange": 9
+    "depthRange": 9,
+    "spriteFacesLeft": true
   },
   "butterflyfish": {
     "style": "hover",
@@ -987,7 +1095,8 @@ const CREATURE_SWIM = {
     "vert": 4,
     "wobble": 8,
     "phaseSpd": 2.8,
-    "depthRange": 2
+    "depthRange": 2,
+    "spriteFacesLeft": true
   },
   "blenny": {
     "style": "cruise",
@@ -995,7 +1104,8 @@ const CREATURE_SWIM = {
     "vert": 4,
     "wobble": 6,
     "phaseSpd": 1.4,
-    "depthRange": 9
+    "depthRange": 9,
+    "spriteFacesLeft": true
   },
   "goby": {
     "style": "cruise",
@@ -1003,7 +1113,8 @@ const CREATURE_SWIM = {
     "vert": 4,
     "wobble": 6,
     "phaseSpd": 1.4,
-    "depthRange": 9
+    "depthRange": 9,
+    "spriteFacesLeft": true
   },
   "seahorse": {
     "style": "hover",
@@ -1011,7 +1122,8 @@ const CREATURE_SWIM = {
     "vert": 4,
     "wobble": 8,
     "phaseSpd": 2.8,
-    "depthRange": 2
+    "depthRange": 2,
+    "spriteFacesLeft": true
   },
   "pipefish": {
     "style": "cruise",
@@ -1025,26 +1137,30 @@ const CREATURE_SWIM = {
     "style": "settled",
     "phaseSpd": 0.35,
     "depthRange": 0.35,
-    "noFlip": true
+    "noFlip": true,
+    "spriteNoFlip": true
   },
   "urchin": {
     "style": "settled",
     "phaseSpd": 0.35,
     "depthRange": 0.35,
-    "noFlip": true
+    "noFlip": true,
+    "spriteNoFlip": true
   },
   "anemone": {
     "style": "settled",
     "phaseSpd": 0.35,
     "depthRange": 0.35,
-    "noFlip": true
+    "noFlip": true,
+    "spriteNoFlip": true
   },
   "pistolshrimp": {
     "style": "dart",
     "speed": 38,
     "vert": 10,
     "phaseSpd": 4.8,
-    "depthRange": 3
+    "depthRange": 3,
+    "spriteFacesLeft": true
   },
   "bluetang": {
     "style": "hover",
@@ -1052,7 +1168,8 @@ const CREATURE_SWIM = {
     "vert": 4,
     "wobble": 8,
     "phaseSpd": 2.8,
-    "depthRange": 2
+    "depthRange": 2,
+    "spriteFacesLeft": true
   },
   "yellowtail": {
     "style": "cruise",
@@ -1060,7 +1177,8 @@ const CREATURE_SWIM = {
     "vert": 4,
     "wobble": 6,
     "phaseSpd": 1.4,
-    "depthRange": 9
+    "depthRange": 9,
+    "spriteFacesLeft": true
   },
   "sergeant": {
     "style": "school",
@@ -1076,25 +1194,29 @@ const CREATURE_SWIM = {
     "vert": 5,
     "wobble": 12,
     "phaseSpd": 3.5,
-    "depthRange": 6
+    "depthRange": 6,
+    "spriteFacesLeft": true
   },
   "sanddollar": {
     "style": "settled",
     "phaseSpd": 0.35,
     "depthRange": 0.35,
-    "noFlip": true
+    "noFlip": true,
+    "spriteNoFlip": true
   },
   "cucumber": {
     "style": "bottom",
     "speed": 14,
     "phaseSpd": 2.2,
-    "depthRange": 2
+    "depthRange": 2,
+    "spriteFacesLeft": true
   },
   "fireworm": {
     "style": "bottom",
     "speed": 14,
     "phaseSpd": 2.2,
-    "depthRange": 2
+    "depthRange": 2,
+    "spriteFacesLeft": true
   },
   "jelly": {
     "style": "drift",
@@ -1102,7 +1224,8 @@ const CREATURE_SWIM = {
     "vert": 9,
     "drift": 7,
     "phaseSpd": 1.3,
-    "depthRange": 9
+    "depthRange": 9,
+    "spriteNoFlip": true
   },
   "seal": {
     "style": "fast_cruise",
@@ -1110,7 +1233,8 @@ const CREATURE_SWIM = {
     "vert": 7,
     "wobble": 10,
     "phaseSpd": 2.4,
-    "depthRange": 11
+    "depthRange": 11,
+    "spriteFacesLeft": true
   },
   "turtle": {
     "style": "cruise",
@@ -1118,7 +1242,8 @@ const CREATURE_SWIM = {
     "vert": 4,
     "wobble": 6,
     "phaseSpd": 1.4,
-    "depthRange": 9
+    "depthRange": 9,
+    "spriteFacesLeft": true
   },
   "dolphin": {
     "style": "fast_cruise",
@@ -1133,7 +1258,8 @@ const CREATURE_SWIM = {
     "speed": 30,
     "vert": 10,
     "phaseSpd": 1.55,
-    "depthRange": 7
+    "depthRange": 7,
+    "spriteFacesLeft": true
   },
   "lobster": {
     "style": "bottom",
@@ -1147,14 +1273,16 @@ const CREATURE_SWIM = {
     "vert": 4,
     "wobble": 8,
     "phaseSpd": 2.8,
-    "depthRange": 2
+    "depthRange": 2,
+    "spriteFacesLeft": true
   },
   "stingray": {
     "style": "glide",
     "speed": 24,
     "vert": 7,
     "phaseSpd": 0.85,
-    "depthRange": 22
+    "depthRange": 22,
+    "spriteFacesLeft": true
   },
   "manta": {
     "style": "glide",
@@ -1169,7 +1297,8 @@ const CREATURE_SWIM = {
     "vert": 7,
     "wobble": 10,
     "phaseSpd": 2.4,
-    "depthRange": 11
+    "depthRange": 11,
+    "spriteFacesLeft": true
   },
   "grouper": {
     "style": "stalk",
@@ -1177,7 +1306,8 @@ const CREATURE_SWIM = {
     "wobble": 20,
     "vert": 3,
     "phaseSpd": 2.1,
-    "depthRange": 4
+    "depthRange": 4,
+    "spriteFacesLeft": true
   },
   "snapper": {
     "style": "cruise",
@@ -1193,7 +1323,8 @@ const CREATURE_SWIM = {
     "vert": 4,
     "wobble": 8,
     "phaseSpd": 2.8,
-    "depthRange": 2
+    "depthRange": 2,
+    "spriteFacesLeft": true
   },
   "boxfish": {
     "style": "hover",
@@ -1201,7 +1332,8 @@ const CREATURE_SWIM = {
     "vert": 4,
     "wobble": 8,
     "phaseSpd": 2.8,
-    "depthRange": 2
+    "depthRange": 2,
+    "spriteFacesLeft": true
   },
   "nautilus": {
     "style": "cruise",
@@ -1209,14 +1341,16 @@ const CREATURE_SWIM = {
     "vert": 4,
     "wobble": 6,
     "phaseSpd": 1.4,
-    "depthRange": 9
+    "depthRange": 9,
+    "spriteFacesLeft": true
   },
   "cuttlefish": {
     "style": "jet",
     "speed": 30,
     "vert": 10,
     "phaseSpd": 1.55,
-    "depthRange": 7
+    "depthRange": 7,
+    "spriteFacesLeft": true
   },
   "sealion": {
     "style": "fast_cruise",
@@ -1248,7 +1382,8 @@ const CREATURE_SWIM = {
     "vert": 4,
     "wobble": 6,
     "phaseSpd": 1.4,
-    "depthRange": 9
+    "depthRange": 9,
+    "spriteFacesLeft": true
   },
   "bonnethead": {
     "style": "patrol",
@@ -1256,7 +1391,8 @@ const CREATURE_SWIM = {
     "vert": 6,
     "wobble": 5,
     "phaseSpd": 1.9,
-    "depthRange": 14
+    "depthRange": 14,
+    "spriteFacesLeft": true
   },
   "nurseshark": {
     "style": "patrol",
@@ -1279,14 +1415,16 @@ const CREATURE_SWIM = {
     "speed": 24,
     "vert": 7,
     "phaseSpd": 0.85,
-    "depthRange": 22
+    "depthRange": 22,
+    "spriteFacesLeft": true
   },
   "flyingfish": {
     "style": "dart",
     "speed": 38,
     "vert": 10,
     "phaseSpd": 4.8,
-    "depthRange": 3
+    "depthRange": 3,
+    "spriteFacesLeft": true
   },
   "ray": {
     "style": "hover",
@@ -1294,7 +1432,8 @@ const CREATURE_SWIM = {
     "vert": 5,
     "wobble": 11,
     "phaseSpd": 1.6,
-    "depthRange": 5
+    "depthRange": 5,
+    "spriteFacesLeft": true
   },
   "eel": {
     "style": "stalk",
@@ -1302,7 +1441,8 @@ const CREATURE_SWIM = {
     "wobble": 20,
     "vert": 3,
     "phaseSpd": 2.1,
-    "depthRange": 4
+    "depthRange": 4,
+    "spriteFacesLeft": true
   },
   "shark": {
     "style": "patrol",
@@ -1310,7 +1450,8 @@ const CREATURE_SWIM = {
     "vert": 6,
     "wobble": 5,
     "phaseSpd": 1.9,
-    "depthRange": 14
+    "depthRange": 14,
+    "spriteFacesLeft": true
   },
   "angler": {
     "style": "stalk",
@@ -1318,14 +1459,16 @@ const CREATURE_SWIM = {
     "wobble": 5,
     "vert": 2,
     "phaseSpd": 1,
-    "depthRange": 3
+    "depthRange": 3,
+    "spriteFacesLeft": true
   },
   "viperfish": {
     "style": "dart",
     "speed": 32,
     "vert": 9,
     "phaseSpd": 3.1,
-    "depthRange": 9
+    "depthRange": 9,
+    "spriteFacesLeft": true
   },
   "blobfish": {
     "style": "drift",
@@ -1333,7 +1476,8 @@ const CREATURE_SWIM = {
     "vert": 2.5,
     "drift": 3,
     "phaseSpd": 0.75,
-    "depthRange": 4
+    "depthRange": 4,
+    "spriteFacesLeft": true
   },
   "eagleray": {
     "style": "glide",
@@ -1356,14 +1500,16 @@ const CREATURE_SWIM = {
     "vert": 6,
     "wobble": 5,
     "phaseSpd": 1.9,
-    "depthRange": 14
+    "depthRange": 14,
+    "spriteFacesLeft": true
   },
   "whaleshark": {
     "style": "glide",
     "speed": 24,
     "vert": 7,
     "phaseSpd": 0.85,
-    "depthRange": 22
+    "depthRange": 22,
+    "spriteFacesLeft": true
   },
   "tigershark": {
     "style": "patrol",
@@ -1386,21 +1532,24 @@ const CREATURE_SWIM = {
     "wobble": 20,
     "vert": 3,
     "phaseSpd": 2.1,
-    "depthRange": 4
+    "depthRange": 4,
+    "spriteFacesLeft": true
   },
   "dragonfish": {
     "style": "dart",
     "speed": 38,
     "vert": 10,
     "phaseSpd": 4.8,
-    "depthRange": 3
+    "depthRange": 3,
+    "spriteFacesLeft": true
   },
   "fangtooth": {
     "style": "dart",
     "speed": 38,
     "vert": 10,
     "phaseSpd": 4.8,
-    "depthRange": 3
+    "depthRange": 3,
+    "spriteFacesLeft": true
   },
   "atolla": {
     "style": "drift",
@@ -1432,7 +1581,8 @@ const CREATURE_SWIM = {
     "wobble": 20,
     "vert": 3,
     "phaseSpd": 2.1,
-    "depthRange": 4
+    "depthRange": 4,
+    "spriteFacesLeft": true
   },
   "sixgill": {
     "style": "patrol",
@@ -1448,7 +1598,8 @@ const CREATURE_SWIM = {
     "vert": 9,
     "drift": 7,
     "phaseSpd": 1.3,
-    "depthRange": 9
+    "depthRange": 9,
+    "spriteFacesLeft": true
   },
   "hatchetfish": {
     "style": "drift",
@@ -1469,7 +1620,8 @@ const CREATURE_SWIM = {
     "style": "bottom",
     "speed": 14,
     "phaseSpd": 2.2,
-    "depthRange": 2
+    "depthRange": 2,
+    "spriteFacesLeft": true
   },
   "lanternfish": {
     "style": "school",
@@ -1477,28 +1629,32 @@ const CREATURE_SWIM = {
     "vert": 5,
     "wobble": 12,
     "phaseSpd": 3.5,
-    "depthRange": 6
+    "depthRange": 6,
+    "spriteFacesLeft": true
   },
   "squid": {
     "style": "jet",
     "speed": 34,
     "vert": 13,
     "phaseSpd": 1.85,
-    "depthRange": 11
+    "depthRange": 11,
+    "spriteFacesLeft": true
   },
   "whale": {
     "style": "glide",
     "speed": 24,
     "vert": 7,
     "phaseSpd": 0.85,
-    "depthRange": 22
+    "depthRange": 22,
+    "spriteFacesLeft": true
   },
   "coelacanth": {
     "style": "glide",
     "speed": 13,
     "vert": 4,
     "phaseSpd": 0.65,
-    "depthRange": 9
+    "depthRange": 9,
+    "spriteFacesLeft": true
   },
   "vampire": {
     "style": "drift",
@@ -1506,21 +1662,24 @@ const CREATURE_SWIM = {
     "vert": 6,
     "drift": 5,
     "phaseSpd": 0.95,
-    "depthRange": 13
+    "depthRange": 13,
+    "spriteFacesLeft": true
   },
   "leviathan": {
     "style": "glide",
     "speed": 16,
     "vert": 9,
     "phaseSpd": 0.5,
-    "depthRange": 28
+    "depthRange": 28,
+    "spriteFacesLeft": true
   },
   "spermwhale": {
     "style": "glide",
     "speed": 24,
     "vert": 7,
     "phaseSpd": 0.85,
-    "depthRange": 22
+    "depthRange": 22,
+    "spriteFacesLeft": true
   },
   "orca": {
     "style": "fast_cruise",
@@ -1535,7 +1694,8 @@ const CREATURE_SWIM = {
     "speed": 24,
     "vert": 7,
     "phaseSpd": 0.85,
-    "depthRange": 22
+    "depthRange": 22,
+    "spriteFacesLeft": true
   },
   "narwhal": {
     "style": "cruise",
@@ -1558,21 +1718,24 @@ const CREATURE_SWIM = {
     "speed": 30,
     "vert": 10,
     "phaseSpd": 1.55,
-    "depthRange": 7
+    "depthRange": 7,
+    "spriteFacesLeft": true
   },
   "gpo": {
     "style": "jet",
     "speed": 30,
     "vert": 10,
     "phaseSpd": 1.55,
-    "depthRange": 7
+    "depthRange": 7,
+    "spriteFacesLeft": true
   },
   "megamouth": {
     "style": "glide",
     "speed": 24,
     "vert": 7,
     "phaseSpd": 0.85,
-    "depthRange": 22
+    "depthRange": 22,
+    "spriteFacesLeft": true
   },
   "greenland": {
     "style": "glide",
@@ -1605,7 +1768,8 @@ const CREATURE_SWIM = {
     "vert": 9,
     "drift": 7,
     "phaseSpd": 1.3,
-    "depthRange": 9
+    "depthRange": 9,
+    "spriteNoFlip": true
   },
   "snailfish": {
     "style": "drift",
@@ -1613,19 +1777,22 @@ const CREATURE_SWIM = {
     "vert": 9,
     "drift": 7,
     "phaseSpd": 1.3,
-    "depthRange": 9
+    "depthRange": 9,
+    "spriteFacesLeft": true
   },
   "glasssponge": {
     "style": "settled",
     "phaseSpd": 0.35,
     "depthRange": 0.35,
-    "noFlip": true
+    "noFlip": true,
+    "spriteNoFlip": true
   },
   "tubeworm": {
     "style": "settled",
     "phaseSpd": 0.35,
     "depthRange": 0.35,
-    "noFlip": true
+    "noFlip": true,
+    "spriteFacesLeft": true
   },
   "swallower": {
     "style": "stalk",
@@ -1633,20 +1800,23 @@ const CREATURE_SWIM = {
     "wobble": 20,
     "vert": 3,
     "phaseSpd": 2.1,
-    "depthRange": 4
+    "depthRange": 4,
+    "spriteFacesLeft": true
   },
   "tripod": {
     "style": "settled",
     "phaseSpd": 0.35,
     "depthRange": 0.35,
-    "noFlip": true
+    "noFlip": true,
+    "spriteFacesLeft": true
   },
   "kraken": {
     "style": "glide",
     "speed": 18,
     "vert": 10,
     "phaseSpd": 0.45,
-    "depthRange": 30
+    "depthRange": 30,
+    "spriteFacesLeft": true
   },
   "wyrm": {
     "style": "glide",

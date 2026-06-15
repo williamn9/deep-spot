@@ -87,7 +87,17 @@ FIGMA_TSM_TINY_ROWS = [(24, 182, 9), (214, 403, 9), (416, 593, 8)]
 # Row 3 has an extra leading fish (not in catalog); skip it so butterflyfish→pipefish align
 FIGMA_TSM_TINY_CELL_IDS = [*TINY_GRID_IDS[:18], None, *TINY_GRID_IDS[18:]]
 FIGMA_TSM_SMALL_ROWS = [(717, 906, 9), (930, 1119, 9), (1145, 1330, 7)]
-FIGMA_TSM_MEDIUM_ROWS = [(1425, 1618, 7), (1629, 1836, 7), (1854, 2039, 5)]
+FIGMA_TSM_MEDIUM_ROWS = [(1425, 1618, 6), (1629, 1836, 8), (1854, 2039, 5)]
+# Row 0 has 6 creatures (no grouper); row 1 skips leading grouper bleed cell
+FIGMA_TSM_MEDIUM_CELL_IDS = [*MEDIUM_GRID_IDS[:6], None, *MEDIUM_GRID_IDS[7:14], *MEDIUM_GRID_IDS[14:19]]
+# Explicit bounds for cells where blob splits are too narrow (x0, y0, x1, y1)
+FIGMA_TSM_CELL_OVERRIDES = {
+    "nautilus": (820, 717, 1040, 906),
+    "octopus": (308, 1629, 656, 1836),
+    "barracuda": (1255, 1425, 1635, 1618),
+    "gulper": (1648, 1425, 1982, 1618),
+    "grouper": (0, 1629, 328, 1836),
+}
 
 # Figma node 11:28 — 2752×764 sheet; (x0, y0, x1, y1, species_id)
 FIGMA_LARGE_CELLS = [
@@ -272,6 +282,29 @@ SWIM_OVERRIDES = {
     "wyrm": {"style": "glide", "speed": 14, "vert": 11, "phaseSpd": 0.4, "depthRange": 32},
 }
 
+# Source art faces right — default flip-when-facing-left applies.
+SPRITE_FACES_RIGHT = frozenset({
+    "atolla", "beluga", "clownfish", "dolphin", "dugong", "dumbo", "eagleray",
+    "goblin", "greenland", "hatchetfish", "isopod", "lobster", "loosejaw",
+    "manatee", "manta", "narwhal", "nurseshark", "oarfish", "orca", "pipefish", "sealion",
+    "sergeant", "sixgill", "snapper", "spidercrab", "thresher", "tigershark", "wolfeel",
+    "wyrm", "yeticrab",
+})
+
+# Radial / vertical / stationary — horizontal flip is meaningless.
+SPRITE_ORIENT_NEUTRAL = frozenset({
+    "anemone", "glasssponge", "jelly", "sanddollar", "shell", "starfish", "stygiomedusa", "urchin",
+})
+
+
+def apply_sprite_orient(species_id: str, preset: dict) -> dict:
+    preset = dict(preset)
+    if species_id in SPRITE_ORIENT_NEUTRAL:
+        preset["spriteNoFlip"] = True
+    elif species_id not in SPRITE_FACES_RIGHT:
+        preset["spriteFacesLeft"] = True
+    return preset
+
 RARITY_BANDS = {
     "common": {"min": 0, "max": 14, "points": (8, 16), "weight": (28, 36)},
     "uncommon": {"min": 15, "max": 79, "points": (22, 44), "weight": (15, 24)},
@@ -300,6 +333,8 @@ def stats_for(species_id: str, rarity: str, idx_in_all: int) -> dict:
 
 TARGET_CANVAS = 128
 TARGET_BODY = 104
+ELONGATED_CANVAS_W = 256
+ELONGATED_ASPECT = 2.2
 CELL_INSET = 6
 CHROMA_PAD = 2
 
@@ -445,13 +480,27 @@ def normalize_sprite(tile: Image.Image, sheet_bg=None) -> Image.Image:
     )
 
     cw, ch = crop.size
-    scale = TARGET_BODY / max(cw, ch, 1)
-    nw = max(1, round(cw * scale))
-    nh = max(1, round(ch * scale))
+    aspect = cw / max(ch, 1)
+    if aspect >= ELONGATED_ASPECT:
+        # Long thin creatures (whales, barracuda): scale by body height, not overall width.
+        scale = TARGET_BODY / ch
+        nw = max(1, round(cw * scale))
+        nh = max(1, round(ch * scale))
+        if nw > ELONGATED_CANVAS_W:
+            scale *= ELONGATED_CANVAS_W / nw
+            nw = max(1, round(cw * scale))
+            nh = max(1, round(ch * scale))
+        canvas_w = min(max(TARGET_CANVAS, nw + 8), ELONGATED_CANVAS_W)
+    else:
+        scale = TARGET_BODY / max(cw, ch, 1)
+        nw = max(1, round(cw * scale))
+        nh = max(1, round(ch * scale))
+        canvas_w = TARGET_CANVAS
+
     resized = crop.resize((nw, nh), Image.Resampling.NEAREST)
 
-    canvas = Image.new("RGBA", (TARGET_CANVAS, TARGET_CANVAS), (0, 0, 0, 0))
-    ox = (TARGET_CANVAS - nw) // 2
+    canvas = Image.new("RGBA", (canvas_w, TARGET_CANVAS), (0, 0, 0, 0))
+    ox = (canvas_w - nw) // 2
     oy = (TARGET_CANVAS - nh) // 2
     canvas.paste(resized, (ox, oy), resized)
     return canvas
@@ -845,16 +894,32 @@ def slice_figma_tiny_small_sheet() -> int:
     return count
 
 
+def _apply_tsm_cell_overrides(sheet_path: Path) -> None:
+    if not FIGMA_TSM_CELL_OVERRIDES or not sheet_path.exists():
+        return
+
+    sheet = Image.open(sheet_path).convert("RGBA")
+    import numpy as np
+
+    sheet_bg = _sheet_bg_color(np.array(sheet)[..., :3])
+    for species_id, (x0, y0, x1, y1) in FIGMA_TSM_CELL_OVERRIDES.items():
+        normalize_sprite(sheet.crop((x0, y0, x1, y1)), sheet_bg).save(
+            SPRITES_DIR / f"{species_id}.png", format="PNG"
+        )
+
+
 def slice_figma_tsm_sheet() -> int:
     """Slice Tiny + Small + Medium from the Figma fish-spike frame (node 11:29)."""
-    return _slice_figma_blob_sheet(
+    count = _slice_figma_blob_sheet(
         FIGMA_TSM_SHEET_PATH,
         [
             (FIGMA_TSM_TINY_ROWS, FIGMA_TSM_TINY_CELL_IDS),
             (FIGMA_TSM_SMALL_ROWS, SMALL_GRID_IDS),
-            (FIGMA_TSM_MEDIUM_ROWS, MEDIUM_GRID_IDS),
+            (FIGMA_TSM_MEDIUM_ROWS, FIGMA_TSM_MEDIUM_CELL_IDS),
         ],
     )
+    _apply_tsm_cell_overrides(FIGMA_TSM_SHEET_PATH)
+    return count
 
 
 def _slice_figma_explicit_cells(sheet_path: Path, cells: list[tuple[int, int, int, int, str]]) -> int:
@@ -920,6 +985,17 @@ def js_object(obj: dict) -> str:
 
 
 def write_species_js() -> None:
+    size_group_by_id: dict[str, str] = {}
+    for group_name, ids in (
+        ("tiny", TINY_GRID_IDS),
+        ("small", SMALL_GRID_IDS),
+        ("medium", MEDIUM_GRID_IDS),
+        ("large", LARGE_GRID_IDS),
+        ("giant", GIANT_GRID_IDS),
+    ):
+        for species_id in ids:
+            size_group_by_id[species_id] = group_name
+
     creatures = []
     swim = {"_default": {"style": "cruise", "speed": 28, "vert": 3, "wobble": 10, "phaseSpd": 2, "depthRange": 4}}
     for i, (species_id, name, rarity, emoji, swim_key) in enumerate(SPECIES):
@@ -930,6 +1006,7 @@ def write_species_js() -> None:
                 "emoji": emoji,
                 "name": name,
                 "rarity": rarity,
+                "sizeGroup": size_group_by_id[species_id],
                 "points": st["points"],
                 "minDepth": st["minDepth"],
                 "weight": st["weight"],
@@ -938,7 +1015,7 @@ def write_species_js() -> None:
         preset = dict(SWIM_PRESETS[swim_key])
         if species_id in SWIM_OVERRIDES:
             preset.update(SWIM_OVERRIDES[species_id])
-        swim[species_id] = preset
+        swim[species_id] = apply_sprite_orient(species_id, preset)
 
     lines = [
         "/**",

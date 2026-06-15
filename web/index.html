@@ -43,6 +43,7 @@
       </div>
       <div id="netEscapeHint" class="net-escape-hint hidden" aria-live="polite">🕸️ Shake phone to escape</div>
       <div class="air-bar-wrap">
+        <div id="stageTankHint" class="stage-tank-hint hidden" aria-live="polite"></div>
         <div class="air-bar-label">
           <span id="tankLabel">Standard Tank</span>
           <span id="airPercent">100%</span>
@@ -89,9 +90,11 @@
         <div class="collection-scroll">
           <ul id="collectionList" class="collection-list"></ul>
         </div>
-        <p class="collection-storage-hint">Saved in this browser (cookie). Tap a species to view its album card.</p>
+        <p class="collection-storage-hint">
+          Saved in this browser (cookie). Tap a species to view its album card.
+          <button id="collectionResetBtn" type="button" class="collection-reset-link">Reset album</button>
+        </p>
         <div class="collection-actions">
-          <button id="collectionResetBtn" type="button" class="btn btn-danger">Reset Album</button>
           <button id="collectionCloseBtn" type="button" class="btn primary">Close</button>
         </div>
       </div>
@@ -99,12 +102,14 @@
 
     <div id="tankCardScreen" class="overlay overlay-fish-card hidden" aria-hidden="true">
       <div class="fish-card tank-card">
+        <button id="tankCardShareBtn" type="button" class="fish-card-share-btn" aria-label="Share card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="16 6 12 2 8 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="2" x2="12" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
         <div class="fish-card-rarity">Tank Upgrade</div>
         <div id="tankCardEmoji" class="fish-card-art" aria-hidden="true">🫧</div>
         <h2 id="tankCardName" class="fish-card-name">Tank Upgrade</h2>
         <p id="tankCardStats" class="fish-card-points tank-card-stats"></p>
         <div class="fish-card-actions">
-          <button id="tankCardShareBtn" type="button" class="btn btn-share">Share Card</button>
           <button id="tankCardCloseBtn" type="button" class="btn primary">Continue</button>
         </div>
       </div>
@@ -112,6 +117,9 @@
 
     <div id="fishCardScreen" class="overlay overlay-fish-card hidden" aria-hidden="true">
       <div class="fish-card" data-rarity="">
+        <button id="fishCardShareBtn" type="button" class="fish-card-share-btn" aria-label="Share card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="16 6 12 2 8 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="2" x2="12" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
         <div id="fishCardRarity" class="fish-card-rarity">Common</div>
         <div id="fishCardEmoji" class="fish-card-art" aria-hidden="true"></div>
         <h2 id="fishCardName" class="fish-card-name">Species</h2>
@@ -120,7 +128,6 @@
         <h3 class="fish-card-facts-title">Did you know?</h3>
         <ul id="fishCardFacts" class="fish-card-facts"></ul>
         <div class="fish-card-actions">
-          <button id="fishCardShareBtn" type="button" class="btn btn-share">Share Card</button>
           <button id="fishCardCloseBtn" type="button" class="btn primary">Continue</button>
         </div>
       </div>
@@ -153,6 +160,6 @@
   <script src="js/fish-cards.js"></script>
   <script src="js/sprites.js"></script>
   <script src="js/game.js"></script>
-  <script src="js/fish-card.js?v=3"></script>
+  <script src="js/fish-card.js?v=4"></script>
 </body>
 </html>

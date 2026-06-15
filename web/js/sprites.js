@@ -3,10 +3,24 @@
  */
 
 const SPRITE_BASE = 'assets/sprites/';
-const SPRITE_VERSION = '19';
+const SPRITE_VERSION = '21';
 const spriteCache = Object.create(null);
 let spritesReady = false;
 let spritesReadyPromise = null;
+
+/** In-game display scale by sprite-sheet size tier (tiny → giant). */
+const CREATURE_SIZE_SCALE = {
+  tiny: { height: 28, radius: 20, glow: 32, bracket: 32 },
+  small: { height: 38, radius: 26, glow: 40, bracket: 42 },
+  medium: { height: 50, radius: 32, glow: 44, bracket: 52 },
+  large: { height: 66, radius: 42, glow: 56, bracket: 68 },
+  giant: { height: 140, radius: 78, glow: 100, bracket: 118 },
+};
+
+function getCreatureSizeScale(type) {
+  const group = type?.sizeGroup || 'medium';
+  return CREATURE_SIZE_SCALE[group] || CREATURE_SIZE_SCALE.medium;
+}
 
 function creatureSpriteUrl(creatureId) {
   return `${SPRITE_BASE}${creatureId}.png?v=${SPRITE_VERSION}`;
@@ -66,22 +80,24 @@ function shouldFlipCreatureSprite(type, facing) {
     typeof CREATURE_SWIM !== 'undefined'
       ? CREATURE_SWIM[type.id] || CREATURE_SWIM._default
       : null;
+  if (swim && swim.spriteNoFlip) return false;
   if (swim && swim.spriteFacesLeft === true) return facing > 0;
   if (swim && swim.spriteFacesLeft === false) return facing < 0;
   // Pixel sheet art faces right by default.
   return facing < 0;
 }
 
-function drawCreatureSprite(ctx, x, y, type, style, alpha, photoFade, flip, targetH = 40) {
+function drawCreatureSprite(ctx, x, y, type, style, alpha, photoFade, flip, targetH) {
+  const displayH = targetH ?? getCreatureSizeScale(type).height;
   const img = loadCreatureSprite(type.id);
   if (!img.complete || !img.naturalWidth) {
     if (typeof drawCreatureEmoji === 'function') {
-      drawCreatureEmoji(x, y, type.emoji, style, alpha, photoFade, flip);
+      drawCreatureEmoji(x, y, type.emoji, style, alpha, photoFade, flip, displayH);
     }
     return;
   }
 
-  const scale = targetH / img.naturalHeight;
+  const scale = displayH / img.naturalHeight;
   const w = img.naturalWidth * scale;
   const h = img.naturalHeight * scale;
 
@@ -136,6 +152,6 @@ function setFishCardArt(type) {
   const el = document.getElementById('fishCardEmoji');
   if (!el) return;
   el.innerHTML = '';
-  const img = createCreatureSpriteImg(type, { className: 'fish-card-art-img', size: 160 });
+  const img = createCreatureSpriteImg(type, { className: 'fish-card-art-img', size: 200 });
   el.appendChild(img);
 }

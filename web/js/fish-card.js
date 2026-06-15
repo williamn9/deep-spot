@@ -263,7 +263,7 @@ function drawFishCardToCanvas(info) {
   c.fillText((RARITY_LABELS[info.rarity] || info.rarity).toUpperCase(), w / 2, 72);
 
   c.font = '120px serif';
-  drawCreatureSpriteToCanvas(c, info, w / 2, 230, 120);
+  drawCreatureSpriteToCanvas(c, info, w / 2, 240, 140);
 
   c.fillStyle = '#e8f4ff';
   c.font = 'bold 42px system-ui, sans-serif';
@@ -530,14 +530,14 @@ if (fishCardShareBtn) {
     if (!fishCardCreature) return;
     const info = getFishCardInfo(fishCardCreature);
     fishCardShareBtn.disabled = true;
-    fishCardShareBtn.textContent = 'Preparing…';
+    fishCardShareBtn.setAttribute('aria-busy', 'true');
     shareFishCardImage(info)
       .catch(() => {
         alert('Could not share this card. Try again or use a browser that supports image sharing.');
       })
       .finally(() => {
         fishCardShareBtn.disabled = false;
-        fishCardShareBtn.textContent = 'Share Card';
+        fishCardShareBtn.removeAttribute('aria-busy');
       });
   });
 }
@@ -550,14 +550,14 @@ if (tankCardShareBtn) {
   tankCardShareBtn.addEventListener('click', () => {
     if (!tankCardData) return;
     tankCardShareBtn.disabled = true;
-    tankCardShareBtn.textContent = 'Preparing…';
+    tankCardShareBtn.setAttribute('aria-busy', 'true');
     shareTankCardImage(tankCardData.prevTier, tankCardData.newTier)
       .catch(() => {
         alert('Could not share this card. Try again or use a browser that supports image sharing.');
       })
       .finally(() => {
         tankCardShareBtn.disabled = false;
-        tankCardShareBtn.textContent = 'Share Card';
+        tankCardShareBtn.removeAttribute('aria-busy');
       });
   });
 }

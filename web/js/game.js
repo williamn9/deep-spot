@@ -24,6 +24,7 @@ const airWarningHalo = document.getElementById('airWarningHalo');
 const airPercent = document.getElementById('airPercent');
 const airBar = document.getElementById('airBar');
 const spotToast = document.getElementById('spotToast');
+const stageTankHint = document.getElementById('stageTankHint');
 const pauseHint = document.getElementById('pauseHint');
 const httpsHint = document.getElementById('httpsHint');
 
@@ -46,13 +47,17 @@ function shouldFlipCreatureEmoji(type, facing) {
   return facesLeft ? facing > 0 : facing < 0;
 }
 
-function initCreatureSwimState(creature) {
+function initCreatureSwimState(creature, spawnFacing) {
   const swim = getCreatureSwim(creature.type);
   creature.swim = swim;
   creature.homeDepth = creature.depth;
   creature.phase = Math.random() * Math.PI * 2;
   creature.phase2 = Math.random() * Math.PI * 2;
-  creature.facing = swim.style === 'settled' ? 1 : Math.random() < 0.5 ? -1 : 1;
+  if (spawnFacing != null) {
+    creature.facing = spawnFacing;
+  } else {
+    creature.facing = swim.style === 'settled' ? 1 : Math.random() < 0.5 ? -1 : 1;
+  }
 }
 
 function clampCreatureDepth(creature) {
@@ -83,7 +88,6 @@ function updateCreatureSwim(creature, dt) {
   const swim = creature.swim || getCreatureSwim(creature.type);
   const p = creature.phase;
   const p2 = creature.phase2;
-  const edgePad = 36;
   const prevX = creature.x;
 
   switch (swim.style) {
@@ -98,8 +102,6 @@ function updateCreatureSwim(creature, dt) {
       creature.x += creature.facing * speed * dt;
       creature.x += Math.sin(p * 1.35) * (swim.wobble || 8) * dt;
       creature.depth += Math.sin(p * 0.5 + p2) * (swim.vert || 0) * dt;
-      if (creature.x < edgePad) creature.facing = 1;
-      if (creature.x > w - edgePad) creature.facing = -1;
       break;
     }
     case 'dart': {
@@ -112,8 +114,6 @@ function updateCreatureSwim(creature, dt) {
     case 'bottom': {
       creature.x += creature.facing * swim.speed * dt * (0.45 + 0.55 * Math.abs(Math.sin(p * 0.85)));
       if (Math.sin(p * 0.35) < -0.92) creature.facing *= -1;
-      if (creature.x < edgePad) creature.facing = 1;
-      if (creature.x > w - edgePad) creature.facing = -1;
       break;
     }
     case 'settled':
@@ -154,7 +154,6 @@ function updateCreatureSwim(creature, dt) {
   creature.phase += dt * (swim.phaseSpd || 2);
   creature.phase2 += dt * (swim.phaseSpd2 || 1.25);
   clampCreatureDepth(creature);
-  creature.x = clamp(creature.x, 30, w - 30);
 }
 
 const OBSTACLE_TYPES = [
@@ -218,6 +217,42 @@ function getTotalPhotoCount() {
 
 function incrementTotalPhotos(amount = 1) {
   setCookie(TOTAL_PHOTOS_COOKIE, String(getTotalPhotoCount() + amount));
+}
+
+/** Photos remaining until the next stage bottle spawns (every STAGE_BOTTLE.photosPerSpawn). */
+function getPhotosUntilNextStageBottle() {
+  const mod = getTotalPhotoCount() % STAGE_BOTTLE.photosPerSpawn;
+  return mod === 0 ? STAGE_BOTTLE.photosPerSpawn : STAGE_BOTTLE.photosPerSpawn - mod;
+}
+
+function formatStageBottleCountdown() {
+  const n = getPhotosUntilNextStageBottle();
+  return `Stage bottle in ${n} photo${n === 1 ? '' : 's'}`;
+}
+
+function getStageBottleHudText() {
+  if (stageBottles.length > 0) {
+    return 'Stage bottle ahead — +30% air';
+  }
+  return formatStageBottleCountdown();
+}
+
+function formatPhotoCaptureToast(type, isNewSpecies) {
+  return isNewSpecies ? `${type.name} — New species!` : type.name;
+}
+
+function updateStageTankHint() {
+  if (!stageTankHint) return;
+  if (!isActiveDive()) {
+    stageTankHint.classList.add('hidden');
+    stageTankHint.textContent = '';
+    stageTankHint.classList.remove('stage-tank-hint--ready');
+    return;
+  }
+  const ready = stageBottles.length > 0;
+  stageTankHint.textContent = getStageBottleHudText();
+  stageTankHint.classList.toggle('stage-tank-hint--ready', ready);
+  stageTankHint.classList.remove('hidden');
 }
 
 function addSpeciesToAlbum(creatureType) {
@@ -427,10 +462,10 @@ function syncNetTangleToDiver() {
   netTangle.visualY = c.y;
 }
 
-function drawCreatureEmoji(x, y, emoji, style, alpha, photoFade, flip = false) {
+function drawCreatureEmoji(x, y, emoji, style, alpha, photoFade, flip = false, targetH = 40) {
   ctx.save();
   ctx.globalAlpha = alpha;
-  ctx.font = '34px serif';
+  ctx.font = `${Math.round(targetH * 0.85)}px serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   if (flip) {
@@ -614,10 +649,12 @@ const WORLD = {
   surfaceRefillZone: 70,
   pixelsPerMeter: 9,
   creatureSpawnInterval: 4.5,
-  maxCreatures: 5,
+  maxCreatures: 15,
   preloadAheadM: 90,
   spawnAheadMin: 24,
   spawnAheadMax: 85,
+  creatureOffScreenCull: 100,
+  creatureSpawnBeyond: 48,
   obstacleSpawnInterval: 12,
   spotRadius: 36,
   viewfinderRadius: 88,
@@ -1105,15 +1142,17 @@ function spawnCreatureAtDepth(spawnDepth) {
   if (creatures.some((c) => Math.abs(c.depth - spawnDepth) < 7)) return false;
 
   const type = pickCreatureForDepth(spawnDepth);
+  const size = getCreatureSizeScale(type);
+  const entry = pickCreatureEntrySpawn(spawnDepth, type);
   creatures.push({
     type,
-    x: pickCreatureSpawnX(spawnDepth),
+    x: entry?.x ?? pickCreatureSpawnX(spawnDepth),
     depth: spawnDepth,
     spotted: false,
     photoFade: 0,
-    radius: 26,
+    radius: size.radius,
   });
-  initCreatureSwimState(creatures[creatures.length - 1]);
+  initCreatureSwimState(creatures[creatures.length - 1], entry?.facing);
   return true;
 }
 
@@ -1142,7 +1181,7 @@ function maintainShallowCreatures() {
       c.depth <= shallowMax &&
       !(c.spotted && (c.photoFade || 0) >= 1)
   );
-  const target = depth < 15 ? 2 : 1;
+  const target = depth < 15 ? 6 : 3;
   if (shallowBand.length >= target || creatures.length >= WORLD.maxCreatures) return;
 
   let guard = 0;
@@ -1151,7 +1190,7 @@ function maintainShallowCreatures() {
     d <= shallowMax &&
     shallowBand.length + guard < target &&
     creatures.length < WORLD.maxCreatures &&
-    guard < 8;
+    guard < 24;
     d += 3 + Math.random() * 5
   ) {
     if (spawnCreatureAtDepth(d)) guard++;
@@ -1162,7 +1201,7 @@ function maintainCreaturePreload() {
   const targetDepth = depth + WORLD.preloadAheadM;
   let d = depth + WORLD.spawnAheadMin;
   let guard = 0;
-  while (d < targetDepth && creatures.length < WORLD.maxCreatures && guard < 14) {
+  while (d < targetDepth && creatures.length < WORLD.maxCreatures && guard < 42) {
     guard++;
     if (spawnCreatureAtDepth(d)) {
       d += 9 + Math.random() * 9;
@@ -1192,16 +1231,14 @@ function spawnMarineSnow() {
 function maybeSpawnStageBottleAfterPhoto() {
   const totalPhotos = getTotalPhotoCount();
   const milestone = Math.floor(totalPhotos / STAGE_BOTTLE.photosPerSpawn);
-  if (milestone < 1 || milestone <= stageBottleLastMilestone) return;
+  if (milestone < 1 || milestone <= stageBottleLastMilestone) return false;
   stageBottleLastMilestone = milestone;
 
-  if (stageBottles.length >= STAGE_BOTTLE.maxWorld) return;
+  if (stageBottles.length >= STAGE_BOTTLE.maxWorld) return false;
 
   const spawnDepth = Math.max(depth + 4 + Math.random() * 10, STAGE_BOTTLE.minDepth);
   const spawnX = pickCreatureSpawnX(spawnDepth);
-  if (spawnStageBottleAtDepth(spawnDepth, spawnX)) {
-    showSpotToast('Stage bottle ahead — +30% air');
-  }
+  return spawnStageBottleAtDepth(spawnDepth, spawnX);
 }
 
 function collectStageBottle(bottleIndex) {
@@ -1212,6 +1249,7 @@ function collectStageBottle(bottleIndex) {
   const pct = Math.round(STAGE_BOTTLE.restoreRatio * 100);
   showSpotToast(`Stage bottle — +${pct}% air`);
   if (typeof Sounds !== 'undefined') Sounds.stageBottle();
+  updateStageTankHint();
 }
 
 function spawnStageBottleAtDepth(spawnDepth, spawnX) {
@@ -1372,6 +1410,10 @@ function isPointOnCliffWall(screenX, worldDepth) {
   return false;
 }
 
+function isDepthInCliffBand(spawnDepth) {
+  return cliffs.some((cliff) => spawnDepth >= cliff.depthTop && spawnDepth <= cliff.depthBottom);
+}
+
 function pickCreatureSpawnX(spawnDepth) {
   const margin = 50;
   for (const cliff of cliffs) {
@@ -1384,6 +1426,21 @@ function pickCreatureSpawnX(spawnDepth) {
     if (right > left + 20) return left + Math.random() * (right - left);
   }
   return margin + Math.random() * (w - margin * 2);
+}
+
+/** Spawn just off-screen so fish swim into the frame. */
+function pickCreatureEntrySpawn(spawnDepth, type) {
+  if (isDepthInCliffBand(spawnDepth)) return null;
+
+  const swim = getCreatureSwim(type);
+  if (swim.style === 'settled') return null;
+
+  const beyond = WORLD.creatureSpawnBeyond + Math.random() * 28;
+  const fromLeft = Math.random() < 0.5;
+  return {
+    x: fromLeft ? -beyond : w + beyond,
+    facing: fromLeft ? 1 : -1,
+  };
 }
 
 function initCliffs() {
@@ -1876,6 +1933,7 @@ function cullWorldEntities() {
   const keepAheadM = WORLD.preloadAheadM + 25;
   creatures = creatures.filter((c) => {
     if (c.spotted && (c.photoFade || 0) >= 1) return false;
+    if (c.x < -WORLD.creatureOffScreenCull || c.x > w + WORLD.creatureOffScreenCull) return false;
     if (c.depth > depth + keepAheadM) return false;
     if (c.depth < depth - keepBehindM) {
       // Keep fauna between the diver and the surface while ascending.
@@ -1975,6 +2033,7 @@ function updateHUD() {
   airBar.classList.toggle('low', pct < 40 && pct > 0);
   airBar.classList.toggle('critical', pct < 15 && pct > 0);
   updatePendingInline();
+  updateStageTankHint();
   updateNetEscapeHint();
   updateAirWarningHalo(airRatio);
 }
@@ -2115,7 +2174,7 @@ function update(dt) {
     if (c.spotted) continue;
     const sy = depthToScreenY(c.depth);
     const dist = Math.hypot(c.x - diver.x, sy - diver.y);
-    if (dist < WORLD.spotRadius) {
+    if (dist < c.radius + 12) {
       c.spotted = true;
       c.photoFade = 0;
 
@@ -2133,12 +2192,13 @@ function update(dt) {
         if (typeof presentCaptureFishCard === 'function') {
           presentCaptureFishCard(c.type);
         }
-        showSpotToast(`${c.type.name} — New species card!`);
         if (typeof Sounds !== 'undefined') Sounds.newSpecies();
-      } else {
-        showSpotToast('📷 Photo taken');
-        if (typeof Sounds !== 'undefined') Sounds.photo();
+      } else if (typeof Sounds !== 'undefined') {
+        Sounds.photo();
       }
+
+      showSpotToast(formatPhotoCaptureToast(c.type, isNewSpecies));
+      updateStageTankHint();
 
       for (let i = 0; i < 10; i++) {
         particles.push({
@@ -2593,8 +2653,7 @@ function drawViewfinderBrackets(x, y, size, color, alpha) {
 
 function drawBiolumeGlow(x, y, type, phase = 0) {
   const pulse = 0.9 + 0.1 * Math.sin(phase * 2.2);
-  const radius =
-    (type.rarity === 'legendary' ? 44 : type.rarity === 'rare' ? 40 : 36) * pulse;
+  const radius = getCreatureSizeScale(type).glow * pulse;
   const core = rarityGlowRgba(type.rarity, 0.72);
   const mid = rarityGlowRgba(type.rarity, 0.26);
 
@@ -2627,6 +2686,7 @@ function drawCreature(c) {
   const seaLevel = getSeaLevelY();
   if (y > h + 40) return;
   if (y < seaLevel - 45) return;
+  if (x < -70 || x > w + 70) return;
 
   const fade = c.photoFade || 0;
   let alpha = spotted ? Math.max(0, 1 - fade) : 1;
@@ -2650,9 +2710,10 @@ function drawCreature(c) {
     style,
     alpha,
     fade,
-    shouldFlipCreatureSprite(type, c.facing ?? 1),
-    40
+    shouldFlipCreatureSprite(type, c.facing ?? 1)
   );
+
+  const size = getCreatureSizeScale(type);
 
   if (spotted && alpha > 0.15) {
     ctx.save();
@@ -2661,16 +2722,16 @@ function drawCreature(c) {
     ctx.fillStyle = '#34d399';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
-    ctx.fillText('✓', x + 22, y - 16);
+    ctx.fillText('✓', x + size.height * 0.55, y - size.height * 0.4);
     ctx.restore();
   } else if (!spotted) {
     const dist = Math.hypot(x - diver.x, y - diver.y);
     if (dist < WORLD.viewfinderRadius && !isPointOnCliffWall(x, c.depth)) {
-      const inShot = dist < WORLD.spotRadius;
+      const inShot = dist < c.radius + 12;
       drawViewfinderBrackets(
         x,
         y,
-        42,
+        size.bracket,
         RARITY_COLORS[type.rarity],
         inShot ? 0.95 : 0.45
       );
